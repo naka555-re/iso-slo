@@ -2953,13 +2953,13 @@
             this.award1GRen('強ISOMOTO降臨！ 1G連確定!!');
           } else if (r < 0.032) {
             this.currentFlag = 'WEAK_ISOMOTO';
-            if (Math.random() < 0.45) this.award1GRen('弱ISOMOTOでカナちゃん点灯！');
+            if (Math.random() < 0.45) this.award1GRen('弱ISOMOTOでISOMOTO点灯！');
           } else if (r < 0.060) {
             this.currentFlag = 'CHERRY';
-            if (Math.random() < 0.25) this.award1GRen('チェリーでカナちゃん点灯！');
+            if (Math.random() < 0.25) this.award1GRen('チェリーでISOMOTO点灯！');
           } else if (r < 0.085) {
             this.currentFlag = 'WATERMELON';
-            if (Math.random() < 0.20) this.award1GRen('スイカでカナちゃん点灯！');
+            if (Math.random() < 0.20) this.award1GRen('スイカでISOMOTO点灯！');
           } else if (r < 0.16) {
             this.currentFlag = 'REPLAY';
           } else {
@@ -2971,7 +2971,7 @@
           }
         }
 
-        award1GRen(message = 'カナちゃんランプ点灯！ 1G連確定!!') {
+        award1GRen(message = 'ISOMOTOランプ点灯！ 1G連確定!!') {
           this.oneGRenStock++;
           // Rule: 1G-Ren prohibits mode demotion (upgrades below HEAVEN to HEAVEN)
           if (this.nextMode !== 'DOKIDOKI') {
@@ -2980,7 +2980,7 @@
           this.refreshChanceLampState();
           this.audio.playKanaFanfare();
           this.showToast(message, 2800);
-          this.triggerTopInterrupt('1GREN', '1G連 確定!!', 'カナちゃん点灯!', 2800);
+          this.triggerTopInterrupt('1GREN', '1G連 確定!!', 'ISOMOTO点灯!', 2800);
           this.updateUI();
         }
 
