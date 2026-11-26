@@ -42,48 +42,38 @@
     }
 
     /* =========================================================================
-       TOP ASSET TOOLBAR (Always accessible, collapsible after applying skin)
+       0. TOP TOOLBAR, LAYOUT WRAPPER & CABINET STAGE
        ========================================================================= */
     #top-toolbar {
-      width: 100%;
       flex-shrink: 0;
-      z-index: 60;
+      width: 100%;
       background: var(--bar-bg);
-      border-bottom: 1px solid var(--panel-border);
+      border-bottom: 1px solid rgba(255, 215, 0, 0.24);
       padding: 6px 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 6px;
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.65);
-      transition: padding 0.2s ease;
-    }
-
-    #top-toolbar.compact {
-      padding: 3px 10px;
-      justify-content: space-between;
-    }
-
-    #top-toolbar.compact .toolbar-full-controls {
-      display: none;
+      z-index: 60;
+      backdrop-filter: blur(8px);
     }
 
     .toolbar-full-controls {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: center;
-      flex-wrap: wrap;
       gap: 6px;
     }
 
     .toolbar-compact-summary {
       display: none;
       align-items: center;
+      justify-content: space-between;
       gap: 8px;
-      font-size: 11px;
-      font-weight: 700;
-      color: #86efac;
+      font-size: 12px;
+      font-weight: 800;
+      color: #fde047;
+    }
+
+    #top-toolbar.compact .toolbar-full-controls {
+      display: none;
     }
 
     #top-toolbar.compact .toolbar-compact-summary {
@@ -94,132 +84,110 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 5px;
+      gap: 4px;
       padding: 6px 11px;
       border-radius: 8px;
-      border: 1.5px solid rgba(255, 215, 0, 0.5);
-      background: linear-gradient(180deg, #273247 0%, #161d2b 100%);
-      color: #fef9c3;
-      font-size: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: #1e293b;
+      color: #f8fafc;
+      font-size: 11px;
       font-weight: 800;
       cursor: pointer;
       white-space: nowrap;
-      transition: all 0.14s ease;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+      transition: transform 0.08s ease, filter 0.15s ease, background 0.15s ease;
     }
 
     .tb-btn:hover {
-      filter: brightness(1.18);
-      border-color: #fde047;
+      filter: brightness(1.15);
+      border-color: var(--gold);
     }
 
     .tb-btn:active {
-      transform: translateY(1px) scale(0.98);
+      transform: scale(0.96);
     }
 
     .tb-btn.primary {
-      background: linear-gradient(180deg, #e11d48 0%, #9f1239 100%);
-      border-color: #fde047;
-      color: #ffffff;
-      box-shadow: 0 0 12px rgba(225, 29, 72, 0.55);
+      background: linear-gradient(135deg, #e11d48, #be123c);
+      border-color: #fda4af;
+      color: #fff;
+      box-shadow: 0 0 12px rgba(225, 29, 72, 0.45);
     }
 
     .tb-btn.applied {
-      background: linear-gradient(180deg, #16a34a 0%, #14532d 100%);
+      background: linear-gradient(135deg, #15803d, #166534);
       border-color: #86efac;
-      color: #ffffff;
-      box-shadow: 0 0 10px rgba(34, 197, 94, 0.45);
+      color: #f0fdf4;
     }
 
     .tb-btn.paste-btn {
-      background: linear-gradient(180deg, #0284c7 0%, #075985 100%);
+      background: linear-gradient(135deg, #0284c7, #1d4ed8);
       border-color: #7dd3fc;
-      color: #f0f9ff;
+      color: #fff;
     }
 
     .tb-btn.subtle {
-      padding: 5px 9px;
-      font-size: 11px;
-      border-color: rgba(255, 255, 255, 0.2);
-      color: #e5e7eb;
+      background: rgba(30, 41, 59, 0.85);
+      color: #cbd5e1;
     }
 
-    /* =========================================================================
-       MAIN PLAY STAGE LAYOUT
-       ========================================================================= */
     #app-wrapper {
-      position: relative;
       flex: 1;
       min-height: 0;
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 8px;
       gap: 14px;
+      padding: 8px;
       overflow: hidden;
     }
 
-    /* Cabinet Stage Container: strict 572/1024 aspect ratio + container-type: inline-size for cqw typography */
     #cabinet-stage {
-      --stage-w: min(96vw, calc(min(86vh, 920px) * 572 / 1024));
-      --cab-w: 480px;
       position: relative;
-      width: var(--stage-w);
-      height: calc(var(--stage-w) * 1024 / 572);
-      aspect-ratio: 572 / 1024;
+      isolation: isolate;
       container-type: inline-size;
-      border-radius: 14px;
-      box-shadow:
-        0 0 0 2px rgba(255, 215, 0, 0.36),
-        0 20px 60px rgba(0, 0, 0, 0.88),
-        0 0 36px rgba(255, 30, 86, 0.14);
-      background: #07080c;
-      overflow: hidden;
+      aspect-ratio: 572 / 1024;
+      height: min(calc(100vh - 64px), calc((100vw - 16px) * 1024 / 572), 920px);
+      width: auto;
+      max-width: 100%;
       flex-shrink: 0;
-      isolation: isolate; /* Single stacking context so blend modes & backdrop-filter act directly on #cabinet-img */
-      transition: box-shadow 0.25s ease;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #050608;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 215, 0, 0.22);
+      transition: box-shadow 0.2s ease;
     }
 
     #cabinet-stage.flashing-stage {
       box-shadow:
-        0 0 0 3px #ff2a6d,
-        0 0 55px rgba(255, 30, 86, 0.85),
-        0 0 110px rgba(255, 215, 0, 0.55);
+        0 18px 50px rgba(0, 0, 0, 0.9),
+        0 0 28px rgba(255, 30, 86, 0.72),
+        0 0 48px rgba(255, 215, 0, 0.45);
     }
 
-    /* Base Cabinet Image (Strict z-index: 1, full stretch to exact 572:1024 frame) */
+    #cabinet-fallback-svg,
     #cabinet-img {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: fill;
+      display: block;
       z-index: 1;
       pointer-events: none;
+    }
+
+    #cabinet-img {
       display: none;
-    }
-
-    /* Built-in Fallback Cabinet SVG (Completely hidden once #cabinet-img loads) */
-    #cabinet-fallback-svg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
       object-fit: fill;
-      z-index: 1;
-      pointer-events: none;
     }
 
-    /* Overlay Elements Common Base */
     .cab-overlay {
       position: absolute;
-      z-index: 5;
-      transform-origin: center center;
+      box-sizing: border-box;
     }
 
     /* =========================================================================
-       1. HIBISCUS LAMPS (Vibrant mix-blend-mode: screen, opacity: 0 when off)
+       1. TOP LEFT & RIGHT HIBISCUS LAMPS (Screen-Blend Translucent Glow)
        ========================================================================= */
     .hibiscus-lamp {
       z-index: 8;
@@ -229,145 +197,330 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 54%, rgba(0, 0, 0, 0.72) 74%, transparent 98%);
-      mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 54%, rgba(0, 0, 0, 0.72) 74%, transparent 98%);
-      transition: opacity 0.06s ease;
+      -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 54%, transparent 94%);
+      mask-image: radial-gradient(circle at 50% 50%, #000 54%, transparent 94%);
+      transition: opacity 0.14s ease;
+    }
+
+    .hibiscus-lamp svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      filter: drop-shadow(0 0 12px rgba(255, 45, 70, 0.95));
     }
 
     .hibiscus-lamp .hibi-bloom {
       position: absolute;
-      inset: -6%;
+      inset: -12%;
       border-radius: 50%;
-      background:
-        radial-gradient(circle at 50% 48%,
-          rgba(255, 252, 205, 0.98) 0%,
-          rgba(255, 118, 28, 0.90) 24%,
-          rgba(255, 12, 60, 0.80) 50%,
-          rgba(255, 0, 42, 0.28) 74%,
-          transparent 96%);
-    }
-
-    .hibiscus-lamp svg {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      filter: blur(1.2px) drop-shadow(0 0 12px #ff1a4b) drop-shadow(0 0 24px #ff8800);
+      background: radial-gradient(
+        circle at 50% 50%,
+        rgba(255, 245, 180, 0.92) 0%,
+        rgba(255, 65, 30, 0.68) 42%,
+        rgba(255, 0, 60, 0.25) 72%,
+        transparent 100%
+      );
     }
 
     .hibiscus-lamp.lit {
       opacity: 1;
     }
 
-    @keyframes hibiStandard {
-      0%, 100% { opacity: 1; transform: scale(1.04); filter: brightness(1.5) saturate(1.45); }
-      50%      { opacity: 0.06; transform: scale(0.96); filter: brightness(0.55); }
-    }
-    @keyframes hibiFast {
-      0%, 100% { opacity: 1; transform: scale(1.08); filter: brightness(1.8) saturate(1.6); }
-      50%      { opacity: 0.02; transform: scale(0.95); filter: brightness(0.45); }
-    }
-    @keyframes hibiRainbow {
-      0%   { opacity: 1; filter: hue-rotate(0deg) brightness(1.8) saturate(1.65); transform: scale(1.07); }
-      25%  { opacity: 0.92; filter: hue-rotate(90deg) brightness(1.8) saturate(1.65); transform: scale(1.02); }
-      50%  { opacity: 1; filter: hue-rotate(180deg) brightness(1.8) saturate(1.65); transform: scale(1.07); }
-      75%  { opacity: 0.92; filter: hue-rotate(270deg) brightness(1.8) saturate(1.65); transform: scale(1.02); }
-      100% { opacity: 1; filter: hue-rotate(360deg) brightness(1.8) saturate(1.65); transform: scale(1.07); }
+    .hibiscus-lamp.pattern-standard {
+      animation: hibiBlinkStandard 0.56s ease-in-out infinite;
     }
 
-    .hibiscus-lamp.pattern-standard { animation: hibiStandard 0.42s infinite ease-in-out; }
-    .hibiscus-lamp.pattern-fast     { animation: hibiFast 0.14s infinite linear; }
-    .hibiscus-lamp.pattern-simul    { animation: hibiStandard 0.26s infinite ease-in-out; }
-    .hibiscus-lamp.pattern-alt-l    { animation: hibiStandard 0.36s infinite ease-in-out; }
-    .hibiscus-lamp.pattern-alt-r    { animation: hibiStandard 0.36s infinite ease-in-out 0.18s; }
-    .hibiscus-lamp.pattern-rainbow  { animation: hibiRainbow 0.40s infinite linear; }
+    .hibiscus-lamp.pattern-fast {
+      animation: hibiBlinkFast 0.16s ease-in-out infinite;
+    }
+
+    .hibiscus-lamp.pattern-simul {
+      animation: hibiBlinkSimul 0.36s steps(2, end) infinite;
+    }
+
+    .hibiscus-lamp.pattern-alt-l {
+      animation: hibiBlinkAltL 0.44s steps(2, end) infinite;
+    }
+
+    .hibiscus-lamp.pattern-alt-r {
+      animation: hibiBlinkAltR 0.44s steps(2, end) infinite;
+    }
+
+    .hibiscus-lamp.pattern-rainbow {
+      animation: hibiBlinkRainbow 0.65s linear infinite;
+    }
+
+    @keyframes hibiBlinkStandard {
+      0%, 100% { opacity: 0.12; transform: scale(0.95); }
+      50%      { opacity: 1;    transform: scale(1.06); }
+    }
+
+    @keyframes hibiBlinkFast {
+      0%, 100% { opacity: 0.08; transform: scale(0.96); }
+      50%      { opacity: 1;    transform: scale(1.1);  }
+    }
+
+    @keyframes hibiBlinkSimul {
+      0%   { opacity: 1; transform: scale(1.07); }
+      100% { opacity: 0.06; transform: scale(0.94); }
+    }
+
+    @keyframes hibiBlinkAltL {
+      0%   { opacity: 1; transform: scale(1.07); }
+      100% { opacity: 0.05; transform: scale(0.94); }
+    }
+
+    @keyframes hibiBlinkAltR {
+      0%   { opacity: 0.05; transform: scale(0.94); }
+      100% { opacity: 1; transform: scale(1.07); }
+    }
+
+    @keyframes hibiBlinkRainbow {
+      0%   { opacity: 1; filter: hue-rotate(0deg) brightness(1.25); transform: scale(1.06); }
+      50%  { opacity: 0.92; filter: hue-rotate(180deg) brightness(1.38); transform: scale(1.12); }
+      100% { opacity: 1; filter: hue-rotate(360deg) brightness(1.25); transform: scale(1.06); }
+    }
 
     /* =========================================================================
-       2. TOP CENTER BLACK WINDOW (Digital LED Display)
+       2. TOP CENTER BLACK WINDOW (Real-Machine LED Signboard Panel)
        ========================================================================= */
     #top-info-window {
       z-index: 6;
+      container-type: inline-size;
       background:
         repeating-linear-gradient(
           180deg,
-          rgba(255, 255, 255, 0.025) 0px,
-          rgba(255, 255, 255, 0.025) 1px,
-          rgba(0, 0, 0, 0.25) 2px,
-          rgba(0, 0, 0, 0.25) 3px
+          rgba(255, 255, 255, 0.03) 0px,
+          rgba(255, 255, 255, 0.03) 1px,
+          rgba(0, 0, 0, 0.28) 2px,
+          rgba(0, 0, 0, 0.28) 3px
         ),
-        linear-gradient(180deg, rgba(10, 4, 4, 0.96) 0%, rgba(18, 6, 6, 0.98) 100%);
-      border: 1px solid rgba(255, 130, 50, 0.35);
-      border-radius: 4px;
+        radial-gradient(ellipse 90% 80% at 50% 50%, #190b0c 0%, #080406 100%);
+      border: 1.5px solid rgba(255, 175, 60, 0.42);
+      border-radius: 5px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      padding: 3% 6%;
-      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.98);
-      overflow: hidden;
-    }
-
-    .lcd-row {
-      display: flex;
-      justify-content: space-between;
       align-items: center;
-      line-height: 1;
-    }
-
-    .lcd-label {
-      font-family: "Courier New", Consolas, monospace;
-      font-size: clamp(7px, 2.0cqw, 10px);
-      color: #f59e0b;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      text-shadow: 0 0 5px rgba(245, 158, 11, 0.7);
-    }
-
-    .lcd-val {
-      font-family: "Courier New", Consolas, monospace;
-      font-size: clamp(9px, 3.0cqw, 15px);
-      font-weight: 900;
-      color: #ff3b30;
-      text-shadow: 0 0 7px rgba(255, 59, 48, 0.9), 0 0 12px rgba(255, 90, 0, 0.45);
-      letter-spacing: 0.05em;
-    }
-
-    .lcd-status-badge {
-      font-family: "Courier New", Consolas, monospace;
-      font-size: clamp(7px, 1.9cqw, 10px);
-      font-weight: 900;
-      text-align: center;
-      padding: 1px 3px;
-      border-radius: 2px;
-      background: rgba(255, 80, 20, 0.14);
-      border: 1px solid rgba(255, 159, 10, 0.35);
-      color: #ffaa22;
-      text-shadow: 0 0 5px rgba(255, 170, 34, 0.85);
-      letter-spacing: 0.04em;
-      white-space: nowrap;
+      justify-content: center;
+      padding: 2% 3.5%;
+      box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.98);
       overflow: hidden;
-      text-overflow: ellipsis;
+      text-align: center;
+      transition: border-color 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
     }
 
-    .lcd-status-badge.bonus-big {
-      background: linear-gradient(90deg, rgba(220, 38, 38, 0.9), rgba(245, 158, 11, 0.9));
+    .top-led-content {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .top-led-main {
+      font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Arial Black", sans-serif;
+      font-weight: 900;
+      line-height: 1.1;
+      white-space: nowrap;
+      max-width: 100%;
+      letter-spacing: 0.03em;
+    }
+
+    .top-led-sub {
+      font-family: "Courier New", Consolas, "Hiragino Kaku Gothic ProN", monospace;
+      font-weight: 900;
+      line-height: 1;
+      white-space: nowrap;
+      max-width: 100%;
+      letter-spacing: 0.04em;
+    }
+
+    .top-led-sub:empty {
+      display: none;
+    }
+
+    /* Normal & 32G Zone: Subdued Tropical Amber/Gold LED Title */
+    #top-info-window.mode-normal {
+      border-color: rgba(245, 158, 11, 0.36);
+    }
+    #top-info-window.mode-normal .top-led-main {
+      font-size: clamp(8px, 16.2cqw, 24px);
+      color: #f5b942;
+      text-shadow:
+        0 0 6px rgba(245, 158, 11, 0.72),
+        0 0 12px rgba(217, 119, 6, 0.38);
+      letter-spacing: 0.08em;
+      animation: normalLedIdle 3.2s ease-in-out infinite;
+    }
+
+    @keyframes normalLedIdle {
+      0%, 100% { opacity: 0.86; filter: brightness(0.95); }
+      50%      { opacity: 1;    filter: brightness(1.12); }
+    }
+
+    /* BONUS_READY (Hibiscus Lit): Alternating "BONUS 確定!!" & "7を狙え!!" / "BARを狙え!!" */
+    .top-led-ready-wrap {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    #top-info-window.mode-ready {
       border-color: #fde047;
-      color: #fff;
-      text-shadow: 0 0 6px #ff0, 0 1px 2px #000;
-      animation: pulseBadge 0.55s infinite alternate;
+      background:
+        repeating-linear-gradient(180deg, rgba(255,255,255,0.03) 0px, rgba(0,0,0,0.28) 2px),
+        radial-gradient(ellipse 90% 80% at 50% 50%, #450a14 0%, #140308 100%);
+      box-shadow: inset 0 0 12px rgba(255, 40, 90, 0.55), 0 0 12px rgba(255, 215, 0, 0.45);
     }
-    .lcd-status-badge.bonus-reg {
-      background: linear-gradient(90deg, rgba(37, 99, 235, 0.9), rgba(6, 182, 212, 0.9));
-      border-color: #7dd3fc;
-      color: #fff;
+    #top-info-window.mode-ready .top-led-content {
+      display: none;
     }
-    .lcd-status-badge.heaven {
-      background: linear-gradient(90deg, rgba(217, 70, 239, 0.9), rgba(244, 63, 94, 0.9));
-      border-color: #fbcfe8;
+    #top-info-window.mode-ready .top-led-ready-wrap {
+      display: flex;
+    }
+    .ready-msg {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Hiragino Kaku Gothic ProN", "Arial Black", sans-serif;
+      font-weight: 900;
+      white-space: nowrap;
+      line-height: 1.05;
+    }
+    .ready-a {
+      font-size: clamp(7px, 12.2cqw, 18px);
+      color: #fef08a;
+      text-shadow: 0 0 7px #ff1e56, 0 0 14px #f59e0b, 0 1px 2px #000;
+      animation: readyAltA 1.15s infinite;
+    }
+    .ready-b {
+      font-size: clamp(7.5px, 13.8cqw, 21px);
       color: #fff;
+      text-shadow: 0 0 8px #ef4444, 0 0 16px #fde047, 0 1px 2px #000;
+      animation: readyAltB 1.15s infinite;
+    }
+    @keyframes readyAltA {
+      0%, 46%   { opacity: 1; transform: scale(1.03); }
+      50%, 96%  { opacity: 0; transform: scale(0.95); }
+      100%      { opacity: 1; transform: scale(1.03); }
+    }
+    @keyframes readyAltB {
+      0%, 46%   { opacity: 0; transform: scale(0.95); }
+      50%, 96%  { opacity: 1; transform: scale(1.04); }
+      100%      { opacity: 0; transform: scale(0.95); }
     }
 
-    @keyframes pulseBadge {
-      from { filter: brightness(1); }
-      to   { filter: brightness(1.38); }
+    /* BIG Bonus: Vibrant Red/Gold Gradient Glow + Remaining G */
+    #top-info-window.mode-big {
+      border-color: #fde047;
+      background:
+        repeating-linear-gradient(180deg, rgba(255,255,255,0.03) 0px, rgba(0,0,0,0.26) 2px),
+        radial-gradient(ellipse 92% 84% at 50% 50%, #4c0b10 0%, #190406 100%);
+      box-shadow: inset 0 0 12px rgba(255, 80, 20, 0.52), 0 0 10px rgba(251, 191, 36, 0.42);
+    }
+    #top-info-window.mode-big .top-led-main {
+      font-size: clamp(7px, 12.6cqw, 18px);
+      background: linear-gradient(180deg, #fffbeb 0%, #fde047 36%, #fb923c 68%, #ef4444 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 5px rgba(255, 80, 20, 0.95)) drop-shadow(0 0 10px rgba(253, 224, 71, 0.55));
+      animation: bigLedPulse 0.72s ease-in-out infinite alternate;
+    }
+    #top-info-window.mode-big .top-led-sub {
+      font-size: clamp(6px, 9.2cqw, 12px);
+      color: #fef08a;
+      text-shadow: 0 0 6px rgba(245, 158, 11, 0.9);
+    }
+    @keyframes bigLedPulse {
+      from { filter: drop-shadow(0 0 4px rgba(255, 65, 20, 0.85)) brightness(1); }
+      to   { filter: drop-shadow(0 0 9px rgba(253, 224, 71, 0.95)) brightness(1.25); }
+    }
+
+    /* REGULAR Bonus: Cool Blue/Cyan/Emerald Glow + Remaining G */
+    #top-info-window.mode-reg {
+      border-color: #67e8f9;
+      background:
+        repeating-linear-gradient(180deg, rgba(255,255,255,0.03) 0px, rgba(0,0,0,0.26) 2px),
+        radial-gradient(ellipse 92% 84% at 50% 50%, #07283d 0%, #040d18 100%);
+      box-shadow: inset 0 0 12px rgba(6, 182, 212, 0.45), 0 0 10px rgba(56, 189, 248, 0.38);
+    }
+    #top-info-window.mode-reg .top-led-main {
+      font-size: clamp(6.5px, 9.4cqw, 14px);
+      letter-spacing: 0.01em;
+      background: linear-gradient(180deg, #ecfeff 0%, #67e8f9 42%, #22d3ee 72%, #10b981 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 5px rgba(6, 182, 212, 0.95)) drop-shadow(0 0 9px rgba(16, 185, 129, 0.55));
+    }
+    #top-info-window.mode-reg .top-led-sub {
+      font-size: clamp(6px, 9.0cqw, 12px);
+      color: #a7f3d0;
+      text-shadow: 0 0 6px rgba(16, 185, 129, 0.85);
+    }
+
+    /* 1G-Ren Stock Interrupt (~2.8s): Rainbow/Gold Celebration */
+    #top-info-window.mode-1gren {
+      border-color: #fef08a;
+      background:
+        repeating-linear-gradient(180deg, rgba(255,255,255,0.04) 0px, rgba(0,0,0,0.22) 2px),
+        linear-gradient(135deg, #4a044e 0%, #991b1b 50%, #92400e 100%);
+      box-shadow: inset 0 0 14px rgba(253, 224, 71, 0.72), 0 0 16px rgba(255, 215, 0, 0.75);
+    }
+    #top-info-window.mode-1gren .top-led-main {
+      font-size: clamp(7.5px, 13.4cqw, 19px);
+      background: linear-gradient(90deg, #fef08a, #f472b6, #38bdf8, #4ade80, #fef08a);
+      background-size: 220% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.95));
+      animation: rainbowFlow 0.7s linear infinite;
+    }
+    #top-info-window.mode-1gren .top-led-sub {
+      font-size: clamp(6px, 8.6cqw, 11px);
+      color: #fef9c3;
+      text-shadow: 0 0 6px #fde047;
+    }
+    @keyframes rainbowFlow {
+      0%   { background-position: 0% 50%; transform: scale(1); }
+      50%  { background-position: 100% 50%; transform: scale(1.05); }
+      100% { background-position: 200% 50%; transform: scale(1); }
+    }
+
+    /* Navi Miss Highest-Priority Interrupt: "さるすぎる．．．" */
+    #top-info-window.mode-navimiss {
+      border-color: #a855f7;
+      background:
+        repeating-linear-gradient(180deg, rgba(255,255,255,0.03) 0px, rgba(0,0,0,0.32) 2px),
+        radial-gradient(ellipse 92% 84% at 50% 50%, #24103a 0%, #0a0818 100%);
+      box-shadow:
+        inset 0 0 14px rgba(139, 92, 246, 0.58),
+        0 0 14px rgba(129, 140, 248, 0.55);
+    }
+    #top-info-window.mode-navimiss .top-led-main {
+      font-size: clamp(7.5px, 11.4cqw, 17px);
+      background: linear-gradient(180deg, #e0f2fe 0%, #c4b5fd 46%, #818cf8 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 6px rgba(168, 85, 247, 0.95)) drop-shadow(0 0 10px rgba(96, 165, 250, 0.55));
+      animation: saruWobble 0.24s ease-in-out infinite;
+    }
+    @keyframes saruWobble {
+      0%   { transform: translate(0px, 0px) rotate(0deg); }
+      25%  { transform: translate(-1.5px, 0.6px) rotate(-0.8deg); }
+      50%  { transform: translate(1.5px, -0.6px) rotate(0.8deg); }
+      75%  { transform: translate(-1px, -0.4px) rotate(-0.4deg); }
+      100% { transform: translate(0px, 0px) rotate(0deg); }
     }
 
     /* =========================================================================
@@ -414,8 +567,6 @@
 
     /* =========================================================================
        4. RIGHT "CHANCE!" PANEL — REAL-MACHINE REAR BACKLIGHT ILLUMINATION
-       No whiteout: uses backdrop-filter to brighten underlying cabinet artwork
-       while preserving dark character outlines + subtle warm amber peripheral glow
        ========================================================================= */
     #chance-lamp {
       z-index: 7;
@@ -436,7 +587,6 @@
       animation: chanceBacklightBreathe 2.2s ease-in-out infinite;
     }
 
-    /* Subtle warm amber/gold peripheral backlight that never washes out the character's face */
     #chance-lamp .chance-warm-aura {
       position: absolute;
       inset: 0;
@@ -449,7 +599,6 @@
           rgba(255, 150, 30, 0.48) 100%);
     }
 
-    /* Delicate backlit acrylic rim highlight */
     #chance-lamp .chance-acrylic-rim {
       position: absolute;
       inset: 1px;
@@ -460,7 +609,6 @@
         inset 0 1px 0 rgba(255, 248, 210, 0.45);
     }
 
-    /* Compact stock badge tucked cleanly at the very top so it never obscures the face */
     #chance-lamp .kana-badge {
       position: absolute;
       top: 2.2%;
@@ -510,7 +658,6 @@
       pointer-events: none;
     }
 
-    /* Order Navi Boxes (LEFT / CENTER / RIGHT) */
     .navi-box {
       z-index: 7;
       background: rgba(5, 8, 14, 0.86);
@@ -551,8 +698,21 @@
       filter: grayscale(0.75) brightness(0.6);
       box-shadow: inset 0 0 6px #000;
     }
+    .navi-box.miss-flash {
+      opacity: 1 !important;
+      filter: none !important;
+      color: #fff !important;
+      background: radial-gradient(circle, #ff1e56 15%, #7f1d1d 95%) !important;
+      border-color: #fecaca !important;
+      box-shadow: 0 0 14px #ef4444, inset 0 0 10px #fecaca !important;
+      animation: naviMissFlash 0.16s linear 3;
+    }
+    @keyframes naviMissFlash {
+      0%, 100% { filter: brightness(1.45); transform: scale(1.08); }
+      50%      { filter: brightness(0.65); transform: scale(0.95); }
+    }
 
-    /* 7-Segment Windows (Strictly 2-digit red numbers ONLY, zero labels, zero overflow) */
+    /* 7-Segment Windows (Strictly 2-digit red numbers ONLY) */
     .seg7-window {
       z-index: 7;
       background: #0a0203;
@@ -606,7 +766,6 @@
       transform: translateY(2px) scale(0.95);
     }
 
-    /* MAX BET */
     #btn-maxbet {
       border-radius: 999px;
       background:
@@ -629,7 +788,6 @@
       to   { filter: brightness(1.32); box-shadow: 0 3px 8px rgba(0,0,0,0.85), 0 0 18px #ff9944; }
     }
 
-    /* PUSH */
     #btn-push {
       border-radius: 9px 9px 14px 14px;
       background:
@@ -665,7 +823,6 @@
       to   { transform: scale(1.03); box-shadow: 0 0 24px #ffbe0b, inset 0 2px 6px rgba(255,255,255,0.9); }
     }
 
-    /* Start Lever */
     #btn-lever {
       border-radius: 50%;
       background:
@@ -694,7 +851,6 @@
         inset 0 4px 8px rgba(0, 0, 0, 0.8);
     }
 
-    /* Stop Buttons */
     .stop-btn {
       border-radius: 50%;
       background:
@@ -1041,7 +1197,7 @@
       </button>
 
       <label class="tb-btn" title="図柄PNGを複数選択して読み込み">
-        <span>🎰 図柄画像を選ぶ（複数可）</span>
+        <span>🍒 図柄画像を選ぶ（複数可）</span>
         <input type="file" id="input-symbol-files" accept="image/*" multiple style="display:none;" />
       </label>
 
@@ -1092,11 +1248,8 @@
           </linearGradient>
         </defs>
 
-        <!-- Outer Red/Green Tropical Cabinet Base -->
         <rect x="0" y="0" width="572" height="1024" rx="22" fill="url(#cabGreen)"/>
         <rect x="10" y="10" width="552" height="1004" rx="18" fill="url(#cabDark)"/>
-
-        <!-- Top Green Crown -->
         <rect x="14" y="10" width="544" height="224" rx="14" fill="url(#cabGreen)" stroke="url(#cabGold)" stroke-width="3"/>
 
         <!-- Dark Red Sculpted Hibiscus Base (Left & Right) -->
@@ -1111,46 +1264,38 @@
           <circle cx="38" cy="-42" r="7" fill="#ca8a04"/>
         </g>
 
-        <!-- Top Center Window Frame -->
         <rect x="223" y="75" width="125" height="74" rx="8" fill="url(#cabGold)"/>
-
-        <!-- Middle Reel & CHANCE Bezel -->
         <rect x="18" y="242" width="536" height="275" rx="12" fill="#1b0e14" stroke="url(#cabGold)" stroke-width="3"/>
         <rect x="103" y="291" width="330" height="153" rx="9" fill="url(#cabGold)"/>
 
-        <!-- Navi & 7-Seg Frame Labels (Cabinet Artwork Side) -->
         <text x="168" y="458" text-anchor="middle" font-family="'Arial Black', sans-serif" font-size="11" fill="#fde047">LEFT</text>
         <text x="228" y="472" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="#93c5fd">CREDIT</text>
         <text x="286" y="458" text-anchor="middle" font-family="'Arial Black', sans-serif" font-size="11" fill="#fde047">CENTER</text>
         <text x="345" y="472" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="#93c5fd">PAYOUT</text>
         <text x="404" y="458" text-anchor="middle" font-family="'Arial Black', sans-serif" font-size="11" fill="#fde047">RIGHT</text>
 
-        <!-- Right CHANCE! Panel Base (Dimmed artwork illuminated by backdrop-filter when lit) -->
         <rect x="428" y="255" width="99" height="255" rx="10" fill="#2c1914" stroke="#855824" stroke-width="2.5"/>
         <circle cx="477" cy="355" r="32" fill="#5c3622" stroke="#180b08" stroke-width="3"/>
         <text x="477" y="370" text-anchor="middle" font-family="sans-serif" font-size="38" opacity="0.72">🌺</text>
         <text x="477" y="485" text-anchor="middle" font-family="'Arial Black', sans-serif" font-size="16" font-weight="900" fill="#9e6d3b" stroke="#140905" stroke-width="1">CHANCE!</text>
 
-        <!-- Control Deck Plate -->
         <path d="M 16 518 L 556 518 L 544 630 L 28 630 Z" fill="url(#cabGreen)" stroke="#052e16" stroke-width="3"/>
         <rect x="145" y="552" width="282" height="58" rx="16" fill="#0f172a" stroke="#334155" stroke-width="2"/>
 
-        <!-- Lower Belly Artwork Panel -->
         <rect x="24" y="642" width="524" height="240" rx="14" fill="url(#cabRed)" stroke="url(#cabGold)" stroke-width="4"/>
         <rect x="34" y="652" width="504" height="220" rx="10" fill="#14070d"/>
         <text x="286" y="752" text-anchor="middle" font-family="'Arial Black', sans-serif" font-size="52" font-weight="900" fill="url(#cabGold)" stroke="#7f1d1d" stroke-width="3">ISOスロ！</text>
         <text x="286" y="794" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="800" fill="#fb7185" letter-spacing="2">上部ボタンまたは Ctrl+V で筐体画像を適用</text>
 
-        <!-- Speakers Bottom -->
         <rect x="24" y="896" width="524" height="110" rx="12" fill="#090d16" stroke="#7f1d1d" stroke-width="3"/>
         <circle cx="110" cy="952" r="46" fill="#111827" stroke="#475569" stroke-width="2"/>
         <circle cx="462" cy="952" r="46" fill="#111827" stroke="#475569" stroke-width="2"/>
       </svg>
 
-      <!-- Custom Cabinet Base Image (Strict z-index: 1, full 572x1024 stretch) -->
+      <!-- Custom Cabinet Base Image (Strict z-index: 1) -->
       <img id="cabinet-img" alt="ISOスロ！ オリジナル筐体" />
 
-      <!-- 1. Left Hibiscus Lamp (left: 2.8%, top: 0.6%, width: 28.5%, height: 16.9%) -->
+      <!-- 1. Left Hibiscus Lamp -->
       <div id="lamp-hibiscus-l" class="cab-overlay hibiscus-lamp" data-key="hibiL" data-guide="左ハイビスカス"
            style="left: 2.8%; top: 0.6%; width: 28.5%; height: 16.9%;">
         <div class="hibi-bloom"></div>
@@ -1172,7 +1317,7 @@
         </svg>
       </div>
 
-      <!-- 2. Right Hibiscus Lamp (left: 68.2%, top: 0.6%, width: 28.2%, height: 16.9%) -->
+      <!-- 2. Right Hibiscus Lamp -->
       <div id="lamp-hibiscus-r" class="cab-overlay hibiscus-lamp" data-key="hibiR" data-guide="右ハイビスカス"
            style="left: 68.2%; top: 0.6%; width: 28.2%; height: 16.9%;">
         <div class="hibi-bloom"></div>
@@ -1194,28 +1339,27 @@
         </svg>
       </div>
 
-      <!-- 3. Top Center Black Window (left: 39.7%, top: 7.7%, width: 20.5%, height: 6.5%) -->
-      <div id="top-info-window" class="cab-overlay" data-key="topWin" data-guide="上部表示窓"
+      <!-- 3. Top Center Black Window (Real-Machine LED Signboard Panel) -->
+      <div id="top-info-window" class="cab-overlay mode-normal" data-key="topWin" data-guide="上部表示窓"
            style="left: 39.7%; top: 7.7%; width: 20.5%; height: 6.5%;">
-        <div class="lcd-row">
-          <span class="lcd-label">GAME</span>
-          <span id="lcd-game-count" class="lcd-val">000</span>
+        <div class="top-led-content">
+          <div id="top-led-main" class="top-led-main">ISOスロ！</div>
+          <div id="top-led-sub" class="top-led-sub"></div>
         </div>
-        <div class="lcd-row">
-          <span class="lcd-label">BONUS</span>
-          <span id="lcd-chain-count" class="lcd-val">00</span>
+        <div class="top-led-ready-wrap">
+          <span class="ready-msg ready-a">BONUS 確定!!</span>
+          <span id="ready-target-msg" class="ready-msg ready-b">7を狙え!!</span>
         </div>
-        <div id="lcd-status-text" class="lcd-status-badge">NORMAL</div>
       </div>
 
-      <!-- 4. Center Main Black Window - 3 Reels (left: 18.9%, top: 28.9%, width: 56.1%, height: 14.0%) -->
+      <!-- 4. Center Main Black Window - 3 Reels -->
       <div id="reel-window" class="cab-overlay" data-key="reelWin" data-guide="3リール窓"
            style="left: 18.9%; top: 28.9%; width: 56.1%; height: 14.0%;">
         <canvas id="reel-canvas" width="480" height="220"></canvas>
         <div id="reel-glass-overlay"></div>
       </div>
 
-      <!-- 5. Right "CHANCE!" Panel — Real-Machine Rear Backlight (left: 75.2%, top: 25.2%, width: 16.6%, height: 24.4%) -->
+      <!-- 5. Right "CHANCE!" Panel — Real-Machine Rear Backlight -->
       <div id="chance-lamp" class="cab-overlay" data-key="chanceWin" data-guide="CHANCE!ランプ"
            style="left: 75.2%; top: 25.2%; width: 16.6%; height: 24.4%;">
         <div class="chance-warm-aura"></div>
@@ -1225,17 +1369,17 @@
 
       <!-- 6. Order Navi Boxes (Strictly separated from 7-seg windows) -->
       <div id="nav-0" class="cab-overlay navi-box" data-key="naviL" data-guide="ナビ左"
-           style="left: 26.2%; top: 45.4%; width: 6.4%; height: 4.8%;"></div>
+           style="left: 26.6%; top: 45.5%; width: 5.9%; height: 4.7%;"></div>
       <div id="nav-1" class="cab-overlay navi-box" data-key="naviC" data-guide="ナビ中"
-           style="left: 46.8%; top: 45.4%; width: 6.4%; height: 4.8%;"></div>
+           style="left: 47.2%; top: 45.5%; width: 5.8%; height: 4.6%;"></div>
       <div id="nav-2" class="cab-overlay navi-box" data-key="naviR" data-guide="ナビ右"
-           style="left: 67.4%; top: 45.4%; width: 6.4%; height: 4.8%;"></div>
+           style="left: 67.8%; top: 45.4%; width: 5.8%; height: 4.7%;"></div>
 
-      <!-- 7. 7-Segment Windows (Strictly 2-digit red numbers ONLY, zero labels) -->
+      <!-- 7. 7-Segment Windows (Strictly 2-digit red numbers ONLY) -->
       <div id="seg-credit" class="cab-overlay seg7-window" data-key="segCredit" data-guide="CREDIT"
-           style="left: 36.2%; top: 46.9%; width: 7.4%; height: 2.0%;"><span id="seg-credit-val">50</span></div>
+           style="left: 36.4%; top: 47.0%; width: 7.2%; height: 1.9%;"><span id="seg-credit-val">50</span></div>
       <div id="seg-payout" class="cab-overlay seg7-window" data-key="segPayout" data-guide="PAYOUT"
-           style="left: 56.6%; top: 46.9%; width: 7.4%; height: 2.0%;"><span id="seg-payout-val">00</span></div>
+           style="left: 56.8%; top: 47.2%; width: 7.3%; height: 1.7%;"><span id="seg-payout-val">00</span></div>
 
       <!-- Toast Message Bar inside Cabinet -->
       <div id="cabinet-toast">MAX BET または レバーON！</div>
@@ -1267,7 +1411,7 @@
         <button id="side-close-btn" class="ui-btn" style="padding: 4px 8px;">✕</button>
       </div>
 
-      <!-- Audio & Auto Play -->
+      <!-- 1. Audio & Auto Play -->
       <div class="panel-section">
         <div class="section-title">
           <span>🔊 サウンド & オートプレイ</span>
@@ -1278,8 +1422,8 @@
           <button id="btn-autoplay" class="ui-btn">⚡ 高速オート: OFF</button>
         </div>
         <div class="slider-row">
-          <label><span>マスター音量</span><span id="vol-label">75%</span></label>
-          <input type="range" id="vol-slider" min="0" max="100" value="75" />
+          <label><span>マスター音量</span><span id="vol-val">75%</span></label>
+          <input type="range" id="vol-slider" min="0" max="100" step="5" value="75" />
         </div>
         <div class="shortcut-hint">
           キー操作: <b>Space / Enter</b> = BET&レバーON (0枚時+50補充)<br/>
@@ -1287,67 +1431,77 @@
         </div>
       </div>
 
-      <!-- Internal State & Debug Monitor -->
+      <!-- 2. Internal State / Debug Info -->
       <div class="panel-section">
         <div class="section-title">
           <span>📊 内部状態・デバッグ情報</span>
-          <button id="btn-refill-50" class="ui-btn" style="padding: 2px 6px; font-size: 10px;">+50枚補充</button>
+          <button id="btn-add-credit" class="ui-btn" style="padding: 3px 8px; font-size: 10px;">+50枚補充</button>
         </div>
-        <div class="debug-row"><span>クレジット / 払い出し</span><span id="dbg-credit-pay">50枚 / 00枚</span></div>
+        <div class="debug-row"><span>クレジット / 払い出し</span><span id="dbg-credit">50枚 / 00枚</span></div>
+        <div class="debug-row"><span>現在G数 / 連チャン数</span><span id="dbg-game-ren">0G / 0連</span></div>
         <div class="debug-row"><span>現在ステート</span><span id="dbg-state">NORMAL</span></div>
         <div class="debug-row"><span>現在内部モード</span><span id="dbg-mode" style="color:#fde047;">通常A</span></div>
         <div class="debug-row"><span>次回予定モード</span><span id="dbg-next-mode" style="color:#38bdf8;">-</span></div>
         <div class="debug-row"><span>規定当選G / 天井</span><span id="dbg-target-g">500G</span></div>
         <div class="debug-row"><span>ボーナス残りG</span><span id="dbg-bonus-rem">-</span></div>
         <div class="debug-row"><span>1G連ストック</span><span id="dbg-stock" style="color:#f472b6;">0個</span></div>
-        <div class="debug-row"><span>成立フラグ / ナビ</span><span id="dbg-role">なし</span></div>
-        <div class="debug-row"><span>総回転 / 総差枚</span><span id="dbg-stats">0G / 0枚</span></div>
+        <div class="debug-row"><span>成立フラグ / ナビ</span><span id="dbg-flag">MISS</span></div>
+        <div class="debug-row"><span>総回転 / 総差枚</span><span id="dbg-total">0G / +0枚</span></div>
       </div>
 
-      <!-- Force Flags -->
+      <!-- 3. Forced Flags -->
       <div class="panel-section">
         <div class="section-title">
           <span>🎯 強制フラグ（次ゲーム有効）</span>
-          <span id="active-flag-badge" style="color: #fbbf24; font-size: 10px;">待機中</span>
+          <span id="forced-flag-status" style="color:#fbbf24; font-size:10px;">待機中</span>
         </div>
         <div class="grid-3">
-          <button class="ui-btn flag-btn" data-flag="BIG">BIG確定</button>
-          <button class="ui-btn flag-btn" data-flag="REG">REG確定</button>
-          <button class="ui-btn flag-btn" data-flag="CHERRY">チェリー</button>
-          <button class="ui-btn flag-btn" data-flag="WEAK_ISO">弱ISOMOTO</button>
-          <button class="ui-btn flag-btn" data-flag="STRONG_ISO">強ISOMOTO</button>
-          <button class="ui-btn flag-btn" data-flag="1GREN">1G連ストック</button>
-          <button class="ui-btn flag-btn" data-flag="FORCE_HEAVEN">天国強制移行</button>
-          <button class="ui-btn flag-btn" data-flag="JUMP_499">499Gジャンプ</button>
-          <button class="ui-btn" id="btn-clear-flag" style="color:#fca5a5;">フラグ解除</button>
+          <button class="ui-btn flag-btn" data-force="BIG">BIG確定</button>
+          <button class="ui-btn flag-btn" data-force="REG">REG確定</button>
+          <button class="ui-btn flag-btn" data-force="CHERRY">チェリー</button>
+          <button class="ui-btn flag-btn" data-force="WEAK_ISOMOTO">弱ISOMOTO</button>
+          <button class="ui-btn flag-btn" data-force="STRONG_ISOMOTO">強ISOMOTO</button>
+          <button class="ui-btn flag-btn" data-force="NAVI_BELL">押し順ベル</button>
+          <button class="ui-btn flag-btn" data-force="1GREN">1G連ストック</button>
+          <button class="ui-btn flag-btn" data-force="HEAVEN">天国強制移行</button>
+          <button class="ui-btn flag-btn" data-force="JUMP499">499Gジャンプ</button>
+          <button class="ui-btn" id="btn-clear-force" style="grid-column: span 3;">強制フラグ解除</button>
         </div>
       </div>
 
-      <!-- Bonus History -->
+      <!-- 4. Bonus History -->
       <div class="panel-section">
         <div class="section-title">
           <span>🏆 ボーナス履歴</span>
-          <span id="history-summary" style="color:#fde047;">BIG:0 / REG:0</span>
+          <span id="history-summary" style="color:#fde047; font-size:10px;">BIG:0 / REG:0</span>
         </div>
         <div id="history-list" class="history-list">
-          <div style="color: #6b7280; text-align: center; padding: 8px;">まだ当選履歴がありません</div>
+          <div style="color:#6b7280; text-align:center; padding:10px 0;">まだ当選履歴がありません</div>
         </div>
       </div>
 
-      <!-- Reel Delay, CHANCE Lamp Brightness & Coordinate Calibration -->
+      <!-- 5. Reel Speed, Meoshi, Lamp Brightness, Delays & Coordinate Calibration -->
       <div class="panel-section">
         <div class="section-title">
-          <span>⚙️ ランプ輝度・ウェイト・座標ガイド</span>
-          <button id="btn-toggle-guide" class="ui-btn" style="padding: 2px 7px; font-size: 10px;">ガイド: OFF</button>
+          <span>⚙️ リール速度・目押し・ランプ・座標</span>
+          <button id="btn-guide-toggle" class="ui-btn" style="padding: 3px 7px; font-size: 10px;">ガイド: OFF</button>
         </div>
 
-        <!-- CHANCE Lamp Backlight Brightness Slider (1.3 - 2.4) + Test Toggle -->
-        <div class="slider-row" style="padding-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.12);">
+        <div class="slider-row">
+          <label><span>🎡 リール回転速度</span><span id="reel-speed-val">27.5 コマ/秒 (約79RPM)</span></label>
+          <input type="range" id="reel-speed-slider" min="14.0" max="35.0" step="0.5" value="27.5" />
+        </div>
+        <div class="slider-row">
+          <label><span>🎯 ボーナス目押し猶予</span><span id="meoshi-grace-val">5 コマ</span></label>
+          <input type="range" id="meoshi-grace-slider" min="2" max="8" step="1" value="5" />
+        </div>
+
+        <div class="slider-row" style="margin-top:4px; padding-top:6px; border-top:1px dashed rgba(255,255,255,0.12);">
           <label>
             <span>✨ CHANCEランプ輝度</span>
             <span style="display:flex; align-items:center; gap:6px;">
-              <span id="chance-bright-val" style="color:#fde047; font-family:monospace;">1.85</span>
-              <button id="btn-test-chance" class="ui-btn" style="padding: 2px 6px; font-size:10px;">点灯テスト</button>
+              <span id="chance-bright-val">1.85</span>
+              <button id="btn-chance-test" class="ui-btn" style="padding:2px 6px; font-size:10px;">点灯テスト</button>
             </span>
           </label>
           <input type="range" id="chance-bright-slider" min="1.30" max="2.40" step="0.05" value="1.85" />
@@ -1419,7 +1573,7 @@
         </div>
       </div>
 
-      <!-- Asset Loader / Custom Skin inside Panel -->
+      <!-- 6. Asset Loader / Custom Skin inside Panel -->
       <div class="panel-section">
         <div class="section-title">
           <span>🖼️ 筐体スキン / 図柄ファイル管理</span>
@@ -1481,11 +1635,11 @@
         topWin:    { left: 39.7, top: 7.7,  width: 20.5, height: 6.5 },
         reelWin:   { left: 18.9, top: 28.9, width: 56.1, height: 14.0 },
         chanceWin: { left: 75.2, top: 25.2, width: 16.6, height: 24.4 },
-        naviL:     { left: 26.2, top: 45.4, width: 6.4,  height: 4.8 },
-        segCredit: { left: 36.2, top: 46.9, width: 7.4,  height: 2.0 },
-        naviC:     { left: 46.8, top: 45.4, width: 6.4,  height: 4.8 },
-        segPayout: { left: 56.6, top: 46.9, width: 7.4,  height: 2.0 },
-        naviR:     { left: 67.4, top: 45.4, width: 6.4,  height: 4.8 },
+        naviL:     { left: 26.6, top: 45.5, width: 5.9,  height: 4.7 },
+        segCredit: { left: 36.4, top: 47.0, width: 7.2,  height: 1.9 },
+        naviC:     { left: 47.2, top: 45.5, width: 5.8,  height: 4.6 },
+        segPayout: { left: 56.8, top: 47.2, width: 7.3,  height: 1.7 },
+        naviR:     { left: 67.8, top: 45.4, width: 5.8,  height: 4.7 },
         btnMax:    { left: 21.0, top: 51.2, width: 12.1, height: 2.9 },
         btnPush:   { left: 35.0, top: 51.0, width: 30.4, height: 3.1 },
         btnLever:  { left: 13.3, top: 55.7, width: 7.2,  height: 3.9 },
@@ -1500,6 +1654,15 @@
         HEAVEN:   '天国モード',
         DOKIDOKI: 'ドキドキモード'
       };
+
+      // Valid 5 Paylines: Top, Middle, Bottom, Diagonal Down-Right, Diagonal Up-Right
+      const PAYLINES = [
+        [0, 0, 0], // 0: 上段
+        [1, 1, 1], // 1: 中段
+        [2, 2, 2], // 2: 下段
+        [0, 1, 2], // 3: 右下がり斜め
+        [2, 1, 0]  // 4: 右上がり斜め
+      ];
 
       /* =========================================================================
          2. WEB AUDIO API SYNTHESIZER (SE & TROPICAL BGM LOOPS)
@@ -1548,22 +1711,24 @@
 
         playTone(freq, type = 'sine', duration = 0.12, gainVal = 0.25, delay = 0, slideTo = null) {
           if (this.muted) return;
-          this.ensureContext();
-          const now = this.ctx.currentTime + delay;
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          osc.type = type;
-          osc.frequency.setValueAtTime(freq, now);
-          if (slideTo) {
-            osc.frequency.exponentialRampToValueAtTime(Math.max(20, slideTo), now + duration);
-          }
-          gain.gain.setValueAtTime(0.0001, now);
-          gain.gain.linearRampToValueAtTime(gainVal, now + 0.01);
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-          osc.connect(gain);
-          gain.connect(this.masterGain);
-          osc.start(now);
-          osc.stop(now + duration + 0.02);
+          try {
+            this.ensureContext();
+            const now = this.ctx.currentTime + delay;
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, now);
+            if (slideTo) {
+              osc.frequency.exponentialRampToValueAtTime(Math.max(20, slideTo), now + duration);
+            }
+            gain.gain.setValueAtTime(0.0001, now);
+            gain.gain.linearRampToValueAtTime(gainVal, now + 0.01);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+            osc.connect(gain);
+            gain.connect(this.masterGain);
+            osc.start(now);
+            osc.stop(now + duration + 0.02);
+          } catch (_) {}
         }
 
         playBet() {
@@ -1579,17 +1744,19 @@
 
         startReelHum() {
           if (this.muted) return;
-          this.ensureContext();
-          this.stopReelHum();
-          const now = this.ctx.currentTime;
-          this.spinOsc = this.ctx.createOscillator();
-          this.spinGain = this.ctx.createGain();
-          this.spinOsc.type = 'triangle';
-          this.spinOsc.frequency.setValueAtTime(72, now);
-          this.spinGain.gain.setValueAtTime(0.04, now);
-          this.spinOsc.connect(this.spinGain);
-          this.spinGain.connect(this.masterGain);
-          this.spinOsc.start(now);
+          try {
+            this.ensureContext();
+            this.stopReelHum();
+            const now = this.ctx.currentTime;
+            this.spinOsc = this.ctx.createOscillator();
+            this.spinGain = this.ctx.createGain();
+            this.spinOsc.type = 'triangle';
+            this.spinOsc.frequency.setValueAtTime(72, now);
+            this.spinGain.gain.setValueAtTime(0.04, now);
+            this.spinOsc.connect(this.spinGain);
+            this.spinGain.connect(this.masterGain);
+            this.spinOsc.start(now);
+          } catch (_) {}
         }
 
         stopReelHum() {
@@ -1606,7 +1773,6 @@
           this.playTone(110, 'sine', 0.07, 0.3, 0, 65);
         }
 
-        // Progressive heavy sound for ISOMOTO stops (1st, 2nd, 3rd)
         playIsomotoStop(count) {
           if (count === 1) {
             this.playTone(330, 'sawtooth', 0.22, 0.32, 0, 440);
@@ -1655,6 +1821,23 @@
 
         playBlackout() {
           this.playTone(140, 'sine', 0.24, 0.35, 0, 52);
+        }
+
+        playNaviMiss() {
+          this.playTone(392.0, 'sawtooth', 0.16, 0.24, 0.00, 352.0);
+          this.playTone(349.2, 'sawtooth', 0.16, 0.24, 0.17, 308.0);
+          this.playTone(293.7, 'sawtooth', 0.44, 0.26, 0.34, 178.0);
+          this.playTone(146.8, 'triangle', 0.46, 0.22, 0.34, 92.0);
+        }
+
+        playTenpai() {
+          this.playTone(880, 'triangle', 0.12, 0.28, 0.00, 1318.5);
+          this.playTone(1318.5, 'sine', 0.18, 0.25, 0.05, 1760);
+        }
+
+        playMeoshiMiss() {
+          this.playTone(240, 'sawtooth', 0.12, 0.22, 0.00, 180);
+          this.playTone(170, 'triangle', 0.18, 0.22, 0.08, 120);
         }
 
         playHibiscusChime(pattern = 'standard') {
@@ -1889,7 +2072,6 @@
               ctx.stroke();
             });
           } else if (type === 'isomoto') {
-            // High-visibility Red/Gold Hibiscus "ISOMOTO" Chance Symbol
             const bgGrad = ctx.createRadialGradient(cx, cy, 6, cx, cy, 56);
             bgGrad.addColorStop(0, '#fef08a');
             bgGrad.addColorStop(0.42, '#dc2626');
@@ -1899,7 +2081,6 @@
             ctx.lineWidth = 4;
             this.roundRect(ctx, 8, 8, w - 16, h - 16, 14, true, true);
 
-            // Hibiscus Petals
             ctx.save();
             ctx.translate(cx, cy - 8);
             for (let i = 0; i < 5; i++) {
@@ -1918,7 +2099,6 @@
             ctx.fill();
             ctx.restore();
 
-            // Bold "ISOMOTO" Plate
             ctx.fillStyle = 'rgba(15, 4, 8, 0.92)';
             this.roundRect(ctx, 12, h - 38, w - 24, 26, 6, true, false);
             ctx.font = '900 21px "Arial Black", Impact, sans-serif';
@@ -1963,7 +2143,6 @@
           }
         }
 
-        // Match ONLY explicit symbol keywords; everything else defaults to cabinet skin
         mapSymbolKeyword(filename) {
           const lower = (filename || '').toLowerCase();
           if (lower.includes('red7')) return 'red7';
@@ -2029,7 +2208,6 @@
           img.src = url;
         }
 
-        // GitHub Pages ./assets/ & ./image_9d0381.png silent auto-loader
         autoLoadDefaultAssets(onUpdate) {
           const candidates = [
             { key: 'cabinet',    paths: ['./assets/cabinet.png', './assets/cabinet.jpg', './image_9d0381.png'] },
@@ -2040,7 +2218,7 @@
             { key: 'replay',     paths: ['./assets/replay.png'] },
             { key: 'watermelon', paths: ['./assets/suika.png'] },
             { key: 'cherry',     paths: ['./assets/cherry.png'] },
-            { key: 'isomoto',    paths: ['./assets/isomoto.png'] }
+            { key: 'isomoto',    paths: ['./assets/isomoto.png', './assets/ISOMOTO.png'] }
           ];
 
           candidates.forEach(item => {
@@ -2066,7 +2244,7 @@
       }
 
       /* =========================================================================
-         4. MAIN PACHISLOT ENGINE (FORWARD-SPIN REELS, STATE MACHINE, MODES)
+         4. MAIN PACHISLOT ENGINE (5-LINE, MEOSHI, REAL-MACHINE SPEED & MODES)
          ========================================================================= */
       class IsoSloGame {
         constructor() {
@@ -2081,6 +2259,10 @@
           this.chanceBrightness = 1.85;
           this.chanceTestMode = false;
 
+          // Reel Spin Speed (Standard Pachislot ~79 RPM / ~0.76s per revolution = 27.5 symbols/sec) & Bonus Meoshi Grace
+          this.reelSpeed = 27.5;
+          this.meoshiGrace = 5;
+
           // Stop Button Delays (adjustable in panel)
           this.delays = {
             leverToStop: 550,
@@ -2089,180 +2271,177 @@
           };
 
           // Game State Machine
-          this.state = 'NORMAL';  // NORMAL | BONUS_READY | BONUS | HEAVEN_ZONE
+          this.state = 'NORMAL'; // NORMAL | BONUS_READY | BONUS | HEAVEN_ZONE
           this.mode = 'NORMAL_A'; // NORMAL_A | NORMAL_B | HEAVEN | DOKIDOKI
           this.nextMode = null;
-          this.pendingBonusType = null;
-          this.hibiscusPattern = 'standard';
-          this.announceTiming = 'LEVER';
-          this.delayedAnnouncePending = false;
+          this.ceiling = 500;
+          this.targetHitG = 500; // For HEAVEN / DOKIDOKI pre-decided 1~32G
 
-          // Counters (Credit capped at 50 like real machine)
-          this.credits = 50;
-          this.betCount = 0;
-          this.payoutDisplay = 0;
-          this.gameCount = 0;
-          this.totalGames = 0;
-          this.netCoins = 0;
-          this.chainCount = 0;
-          this.stock1G = 0;
-          this.bonusGamesLeft = 0;
-          this.currentBonusType = null;
-          this.currentBonusCoins = 0;
-          this.currentBonusStartG = 0;
+          // Counters
+          this.credit = 50;
+          this.payout = 0;
+          this.betPlaced = 0;
+          this.replayCarry = false;
+          this.currentG = 0;
+          this.totalSpins = 0;
+          this.netMedals = 0;
+          this.renchanCount = 0;
 
-          // PUSH Long-Press & Rapid-Tap State
-          this.pushHoldTimer = null;
-          this.pushLongTriggered = false;
-          this.pushTapCount = 0;
-          this.pushTapResetTimer = null;
+          // Bonus Info
+          this.pendingBonus = null; // { type: 'BIG'|'REG', nextMode, blinkPattern, timing: 'LEVER'|'AFTER3'|'NEXT_LEVER' }
+          this.deferredNextLeverBonus = null;
+          this.activeBonus = null; // { type: 'BIG'|'REG', remainG, totalG, earned, hitG }
+          this.oneGRenStock = 0;
+          this.history = [];
+          this.bigCount = 0;
+          this.regCount = 0;
 
-          // Pre-determined Hit G
-          this.targetHitG = 500;
-          this.resetTargetHitG('NORMAL_A');
-
-          // Reel Physics (pos = exact center-row symbol index in [0, 21))
-          // Spinning ALWAYS decreases reel.pos so delta = (i - reel.pos) increases -> top-to-bottom (+Y) forward rotation!
-          this.reelCanvas = document.getElementById('reel-canvas');
-          this.reelCtx = this.reelCanvas.getContext('2d');
-          this.reels = [0, 1, 2].map(i => ({
-            index: i,
-            strip: REEL_STRIPS[i],
-            pos: Math.floor(Math.random() * 21),
-            speed: 0,
-            spinning: false,
-            stopping: false,
-            stopRemain: 0,
-            targetIdx: 0,
-            onLanded: null,
-            braking: false,
-            brakeElapsed: 0,
-            bounceOffset: 0
-          }));
-
-          // Spin & Control Locks
-          this.isSpinning = false;
-          this.stopEnabled = [false, false, false];
-          this.lastStopTime = 0;
-          this.nextReadyTime = 0;
+          // Spin / Flag State
+          this.phase = 'IDLE'; // IDLE | BETTED | SPINNING | EVALUATING
+          this.currentFlag = 'MISS';
+          this.currentNavi = null; // [0,1,2] permutation of reel indices representing stop order 1st, 2nd, 3rd
+          this.naviStep = 0;
+          this.naviMissed = false;
+          this.stoppedCount = 0;
+          this.stoppedOrder = [];
+          this.isomotoStopHits = 0;
+          this.stopsAllowed = false;
+          this.nextStopUnlockTime = 0;
           this.forcedFlag = null;
           this.autoPlay = false;
           this.autoTimer = null;
 
-          // Current Spin Outcome
-          this.currentOutcome = {
-            role: 'MISS',
-            naviOrder: null,
-            pressedOrder: [],
-            isomotoStops: 0,
-            winLines: []
-          };
+          // Signboard Interrupts
+          this.topInterrupt = null; // { kind: 'NAVIMISS'|'1GREN', main, sub, until }
+          this.topInterruptTimer = null;
 
-          this.history = [];
-          this.bigTotal = 0;
-          this.regTotal = 0;
-          this.toastTimer = null;
-          this.globalToastTimer = null;
+          // Active Winning Paylines (for canvas glow rendering)
+          this.winningLines = []; // [{ lineIdx, color }]
+          this.winFlashUntil = 0;
 
-          // Initialize DOM, ResizeObserver, Coordinates, Brightness & Loop
-          this.bindDOM();
+          // PUSH Button state (short / rapid / hold)
+          this.pushHoldTimer = null;
+          this.pushRapidCount = 0;
+          this.pushRapidReset = null;
+
+          // Reels (21 symbols, forward top-to-bottom rotation)
+          this.reels = [0, 1, 2].map((idx) => ({
+            idx,
+            strip: REEL_STRIPS[idx],
+            pos: [9, 10, 3][idx], // Start cleanly showing Red7 / symbols
+            spinning: false,
+            stopping: false,
+            targetIdx: 0,
+            stopRemain: 0,
+            onLanded: null,
+            braking: false,
+            brakeElapsed: 0,
+            bounceOffset: 0,
+            speed: this.reelSpeed
+          }));
+
+          // Canvas & animation loop
+          this.canvas = document.getElementById('reel-canvas');
+          this.ctx = this.canvas.getContext('2d');
+          this.lastFrameTime = performance.now();
+
           this.initStageResizeObserver();
-          this.applyChanceBrightness(this.chanceBrightness);
-          this.applyAllCoords();
+          this.bindDOM();
+          this.applyCoordinates();
+          this.applyChanceBrightness();
           this.updateUI();
-          this.startRenderLoop();
+          this.updateAssetStatus();
 
-          // Attempt silent ./assets/ & ./image_9d0381.png load
+          // Silent auto-loader for ./assets/ & ./image_9d0381.png
           this.renderer.autoLoadDefaultAssets((key, src, fname) => {
             if (key === 'cabinet') {
               this.applyCabinetSkinUI(src, fname, false);
             }
-            this.updateAssetStatusUI();
+            this.updateAssetStatus();
           });
-          this.updateAssetStatusUI();
+
+          // Start 60fps canvas animation loop
+          const loop = (now) => {
+            const dt = Math.min(0.05, Math.max(0.001, (now - this.lastFrameTime) / 1000));
+            this.lastFrameTime = now;
+            this.updateReelsPhysics(dt);
+            this.renderReelsCanvas(now);
+            requestAnimationFrame(loop);
+          };
+          requestAnimationFrame(loop);
         }
 
-        /* -----------------------------------------------------------------------
-           STAGE RESIZE OBSERVER (--cab-w CSS variable sync alongside cqw)
-           ----------------------------------------------------------------------- */
+        /* =====================================================================
+           A. STAGE RESIZE, CANVAS DPR & CHANCE BACKLIGHT HELPERS
+           ===================================================================== */
         initStageResizeObserver() {
-          const stage = document.getElementById('cabinet-stage');
-          if (!stage) return;
-          const syncWidth = (w) => {
-            if (w > 0) stage.style.setProperty('--cab-w', `${w.toFixed(1)}px`);
+          const reelWin = document.getElementById('reel-window');
+          const syncCanvasSize = () => {
+            const rect = reelWin.getBoundingClientRect();
+            if (rect.width <= 0 || rect.height <= 0) return;
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            const targetW = Math.max(240, Math.round(rect.width * dpr));
+            const targetH = Math.max(110, Math.round(rect.height * dpr));
+            if (this.canvas.width !== targetW || this.canvas.height !== targetH) {
+              this.canvas.width = targetW;
+              this.canvas.height = targetH;
+            }
           };
-          syncWidth(stage.clientWidth);
+          syncCanvasSize();
           if (typeof ResizeObserver !== 'undefined') {
-            this.resizeObserver = new ResizeObserver((entries) => {
-              for (const entry of entries) {
-                syncWidth(entry.contentRect.width);
-              }
-            });
-            this.resizeObserver.observe(stage);
+            this.resizeObserver = new ResizeObserver(() => syncCanvasSize());
+            this.resizeObserver.observe(reelWin);
+          } else {
+            window.addEventListener('resize', syncCanvasSize);
           }
         }
 
-        /* -----------------------------------------------------------------------
-           CHANCE LAMP BACKLIGHT BRIGHTNESS CONTROLLER
-           ----------------------------------------------------------------------- */
-        applyChanceBrightness(val) {
-          this.chanceBrightness = Math.max(1.3, Math.min(2.4, Number(val) || 1.85));
-          const low = Math.max(1.15, +(this.chanceBrightness - 0.10).toFixed(2));
-          const high = +(this.chanceBrightness + 0.17).toFixed(2);
+        applyChanceBrightness() {
           const root = document.documentElement;
-          root.style.setProperty('--chance-bright', this.chanceBrightness.toFixed(2));
-          root.style.setProperty('--chance-bright-low', low.toFixed(2));
-          root.style.setProperty('--chance-bright-high', high.toFixed(2));
-          const label = document.getElementById('chance-bright-val');
-          if (label) label.textContent = this.chanceBrightness.toFixed(2);
+          const b = this.chanceBrightness;
+          root.style.setProperty('--chance-bright', b.toFixed(2));
+          root.style.setProperty('--chance-bright-low', Math.max(1.15, b - 0.12).toFixed(2));
+          root.style.setProperty('--chance-bright-high', (b + 0.17).toFixed(2));
+          const valEl = document.getElementById('chance-bright-val');
+          if (valEl) valEl.textContent = b.toFixed(2);
         }
 
         refreshChanceLampState() {
           const lamp = document.getElementById('chance-lamp');
-          const badge = document.getElementById('kana-stock-label');
-          const shouldLight = this.stock1G > 0 || this.chanceTestMode;
-          lamp.classList.toggle('active', shouldLight);
-          if (this.stock1G > 1) {
-            badge.textContent = `1G連 ×${this.stock1G}`;
-          } else if (this.stock1G === 1) {
-            badge.textContent = '1G連確定';
-          } else if (this.chanceTestMode) {
-            badge.textContent = 'TEST点灯';
+          const label = document.getElementById('kana-stock-label');
+          const lit = this.oneGRenStock > 0 || this.chanceTestMode;
+          lamp.classList.toggle('active', lit);
+          if (this.oneGRenStock > 1) {
+            label.textContent = `1G連 ×${this.oneGRenStock}`;
+          } else if (this.oneGRenStock === 1) {
+            label.textContent = '1G連確定';
+          } else {
+            label.textContent = 'テスト点灯';
           }
         }
 
-        /* -----------------------------------------------------------------------
-           SKIN APPLICATION (FAIL-SAFE: FileReader, Paste, Drop, Auto-Load)
-           ----------------------------------------------------------------------- */
-        applyCabinetSkinUI(src, filename, announce = true) {
+        applyCabinetSkinUI(dataUrl, filename, notify = true) {
           const imgEl = document.getElementById('cabinet-img');
-          const fallbackSvg = document.getElementById('cabinet-fallback-svg');
+          const svgEl = document.getElementById('cabinet-fallback-svg');
+          imgEl.src = dataUrl;
+          imgEl.style.display = 'block';
+          svgEl.style.display = 'none';
 
-          imgEl.onload = () => {
-            imgEl.style.display = 'block';
-            fallbackSvg.style.display = 'none';
-          };
-          imgEl.src = src;
-          if (imgEl.complete && imgEl.naturalWidth > 0) {
-            imgEl.style.display = 'block';
-            fallbackSvg.style.display = 'none';
+          const lbl = document.getElementById('tb-cabinet-label');
+          const txt = document.getElementById('tb-cabinet-text');
+          lbl.classList.remove('primary');
+          lbl.classList.add('applied');
+          txt.textContent = `✓ 筐体適用済み (${filename || 'カスタム'})`;
+          document.getElementById('tb-compact-status').textContent = `🌺 ISOスロ！ 筐体適用済み`;
+
+          if (notify) {
+            this.showGlobalToast(`筐体画像を適用しました: ${filename || 'カスタム画像'}`);
           }
-
-          const labelBtn = document.getElementById('tb-cabinet-label');
-          const labelText = document.getElementById('tb-cabinet-text');
-          labelBtn.classList.remove('primary');
-          labelBtn.classList.add('applied');
-          labelText.textContent = `✓ 筐体適用済み（変更可）`;
-
-          document.getElementById('tb-compact-status').textContent = `✓ 筐体適用済み: ${filename}`;
-          this.updateAssetStatusUI();
-          if (announce) {
-            this.showGlobalToast(`筐体画像を適用しました（${filename}）`, 2500);
-          }
+          this.updateAssetStatus();
         }
 
         handleUnconditionalCabinetFile(file) {
-          if (!file) return;
+          if (!file || (file.type && !file.type.startsWith('image/'))) return;
           this.renderer.loadCabinetFromFile(file, (dataUrl, fname) => {
             this.applyCabinetSkinUI(dataUrl, fname, true);
           });
@@ -2270,267 +2449,370 @@
 
         handleSymbolFilesSelection(fileList) {
           if (!fileList || fileList.length === 0) return;
-          let matchedCount = 0;
+          let matched = 0;
           Array.from(fileList).forEach(file => {
-            if (!file.type.startsWith('image/')) return;
             const key = this.renderer.mapSymbolKeyword(file.name);
             if (key) {
-              matchedCount++;
-              this.renderer.loadSymbolFromFile(file, key, (k, fname) => {
-                this.updateAssetStatusUI();
-                this.showGlobalToast(`図柄を適用しました: ${k}（${fname}）`, 2200);
+              matched++;
+              this.renderer.loadSymbolFromFile(file, key, () => {
+                this.updateAssetStatus();
               });
             }
           });
-          if (matchedCount === 0) {
-            this.showGlobalToast('図柄名（Red7, yellow7, bar, bell, replay, suika, cherry, isomoto）を含む画像を選んでください', 2800);
+          if (matched > 0) {
+            this.showGlobalToast(`図柄画像を ${matched}件 読み込みました！`);
+          } else {
+            this.showGlobalToast('図柄キーワード(red7/bell/suika/isomoto等)を含むファイル名にしてください');
           }
         }
 
         handleSmartDropFiles(fileList) {
           if (!fileList || fileList.length === 0) return;
+          let cabApplied = false;
+          let symCount = 0;
           Array.from(fileList).forEach(file => {
-            if (!file.type.startsWith('image/')) return;
+            if (file.type && !file.type.startsWith('image/')) return;
             const symKey = this.renderer.mapSymbolKeyword(file.name);
             if (symKey) {
-              this.renderer.loadSymbolFromFile(file, symKey, (k, fname) => {
-                this.updateAssetStatusUI();
-                this.showGlobalToast(`図柄を適用しました: ${k}（${fname}）`, 2200);
+              symCount++;
+              this.renderer.loadSymbolFromFile(file, symKey, () => {
+                this.updateAssetStatus();
               });
             } else {
+              cabApplied = true;
               this.handleUnconditionalCabinetFile(file);
             }
           });
+          if (!cabApplied && symCount > 0) {
+            this.showGlobalToast(`図柄画像を ${symCount}件 適用しました！`);
+          }
         }
 
-        /* -----------------------------------------------------------------------
-           MODE & TARGET GAME LOGIC
-           ----------------------------------------------------------------------- */
-        resetTargetHitG(mode) {
-          this.mode = mode;
-          if (mode === 'HEAVEN' || mode === 'DOKIDOKI') {
-            const r = Math.random();
-            if (r < 0.25) {
-              this.targetHitG = Math.floor(Math.random() * 5) + 1;
-            } else if (r < 0.65) {
-              this.targetHitG = Math.floor(Math.random() * 12) + 6;
+        /* =====================================================================
+           B. TOASTS & TOP LED SIGNBOARD CONTROLLER
+           ===================================================================== */
+        showToast(msg, duration = 2200) {
+          const el = document.getElementById('cabinet-toast');
+          el.textContent = msg;
+          el.classList.add('show');
+          clearTimeout(this._toastTimer);
+          this._toastTimer = setTimeout(() => el.classList.remove('show'), duration);
+        }
+
+        showGlobalToast(msg, duration = 2600) {
+          const el = document.getElementById('global-toast');
+          el.textContent = msg;
+          el.classList.add('show');
+          clearTimeout(this._globalToastTimer);
+          this._globalToastTimer = setTimeout(() => el.classList.remove('show'), duration);
+        }
+
+        triggerTopInterrupt(kind, mainText, subText = '', durationMs = 3000) {
+          clearTimeout(this.topInterruptTimer);
+          this.topInterrupt = { kind, main: mainText, sub: subText };
+          this.updateTopSignboard();
+          this.topInterruptTimer = setTimeout(() => {
+            this.topInterrupt = null;
+            this.updateTopSignboard();
+          }, durationMs);
+        }
+
+        clearTopInterrupt() {
+          clearTimeout(this.topInterruptTimer);
+          this.topInterrupt = null;
+          this.updateTopSignboard();
+        }
+
+        updateTopSignboard() {
+          const win = document.getElementById('top-info-window');
+          const mainEl = document.getElementById('top-led-main');
+          const subEl = document.getElementById('top-led-sub');
+          const readyTarget = document.getElementById('ready-target-msg');
+
+          win.classList.remove('mode-normal', 'mode-ready', 'mode-big', 'mode-reg', 'mode-1gren', 'mode-navimiss');
+
+          // Priority 1: Navi Miss "さるすぎる．．．"
+          if (this.topInterrupt && this.topInterrupt.kind === 'NAVIMISS') {
+            win.classList.add('mode-navimiss');
+            mainEl.textContent = this.topInterrupt.main;
+            subEl.textContent = this.topInterrupt.sub || '';
+            return;
+          }
+
+          // Priority 2: 1G-Ren Stock Celebration Interrupt
+          if (this.topInterrupt && this.topInterrupt.kind === '1GREN') {
+            win.classList.add('mode-1gren');
+            mainEl.textContent = this.topInterrupt.main;
+            subEl.textContent = this.topInterrupt.sub || '';
+            return;
+          }
+
+          // Priority 3: BONUS_READY (Hibiscus blinking)
+          if (this.state === 'BONUS_READY') {
+            win.classList.add('mode-ready');
+            const isReg = this.pendingBonus && this.pendingBonus.type === 'REG';
+            readyTarget.textContent = isReg ? 'BARを狙え!!' : '7を狙え!!';
+            return;
+          }
+
+          // Priority 4: BONUS Digestion
+          if (this.state === 'BONUS' && this.activeBonus) {
+            if (this.activeBonus.type === 'BIG') {
+              win.classList.add('mode-big');
+              mainEl.textContent = 'BIG ボーナス！';
             } else {
-              this.targetHitG = Math.floor(Math.random() * 15) + 18;
+              win.classList.add('mode-reg');
+              mainEl.textContent = 'REGULAR ボーナス！';
             }
-          } else {
-            this.targetHitG = 500;
+            subEl.textContent = `残り ${this.activeBonus.remainG}G`;
+            return;
           }
+
+          // Default: NORMAL & HEAVEN_ZONE (32G)
+          win.classList.add('mode-normal');
+          mainEl.textContent = 'ISOスロ！';
+          subEl.textContent = '';
         }
 
-        rollNextMode(currentMode, trigger = 'NORMAL') {
-          const r = Math.random();
-          if (trigger === 'STRONG_ISO') {
-            return r < 0.35 ? 'DOKIDOKI' : 'HEAVEN';
-          }
-          if (trigger === 'WEAK_ISO') {
-            if (currentMode === 'NORMAL_A') {
-              return r < 0.45 ? 'HEAVEN' : (r < 0.85 ? 'NORMAL_B' : 'NORMAL_A');
-            }
-            if (currentMode === 'NORMAL_B') {
-              return r < 0.72 ? 'HEAVEN' : 'NORMAL_B';
-            }
-          }
-
-          if (currentMode === 'NORMAL_A') {
-            if (r < 0.04) return 'DOKIDOKI';
-            if (r < 0.28) return 'HEAVEN';
-            if (r < 0.65) return 'NORMAL_B';
-            return 'NORMAL_A';
-          }
-          if (currentMode === 'NORMAL_B') {
-            // Strictly NEVER demotes to NORMAL_A until entering HEAVEN or DOKIDOKI
-            if (r < 0.08) return 'DOKIDOKI';
-            if (r < 0.58) return 'HEAVEN';
-            return 'NORMAL_B';
-          }
-          if (currentMode === 'HEAVEN') {
-            // ~75% loop rate
-            if (r < 0.06) return 'DOKIDOKI';
-            if (r < 0.76) return 'HEAVEN';
-            return 'NORMAL_A';
-          }
-          if (currentMode === 'DOKIDOKI') {
-            // ~85% loop rate
-            if (r < 0.85) return 'DOKIDOKI';
-            return 'NORMAL_A';
-          }
-          return 'NORMAL_A';
-        }
-
-        selectAnnouncementPattern(bonusType, nextMode, trigger) {
-          let pattern = 'standard';
-          const r = Math.random();
-
-          if (nextMode === 'DOKIDOKI' && bonusType === 'BIG' && r < 0.55) {
-            pattern = 'rainbow';
-          } else if (bonusType === 'BIG' && (nextMode === 'HEAVEN' || nextMode === 'DOKIDOKI') && r < 0.45) {
-            pattern = 'fast';
-          } else if ((nextMode === 'NORMAL_B' || nextMode === 'HEAVEN' || nextMode === 'DOKIDOKI') && r < 0.45) {
-            pattern = r < 0.22 ? 'simul' : 'alt';
-          }
-
-          let timing = 'LEVER';
-          if (trigger === 'WEAK_ISO' || trigger === 'STRONG_ISO') {
-            timing = Math.random() < 0.55 ? 'THIRD_STOP' : 'NEXT_LEVER';
-          } else if (bonusType === 'BIG' && Math.random() < 0.22) {
-            timing = 'THIRD_STOP';
-          }
-
-          return { pattern, timing };
-        }
-
-        triggerBonusWin(trigger = 'NORMAL', forceType = null) {
-          if (this.state === 'BONUS_READY' || this.state === 'BONUS') return;
-
-          let bonusType = forceType;
-          if (!bonusType) {
-            if (trigger === 'STRONG_ISO') {
-              bonusType = 'BIG';
-            } else if (this.mode === 'DOKIDOKI') {
-              bonusType = Math.random() < 0.78 ? 'BIG' : 'REG';
-            } else if (this.mode === 'HEAVEN') {
-              bonusType = Math.random() < 0.68 ? 'BIG' : 'REG';
-            } else {
-              bonusType = Math.random() < 0.60 ? 'BIG' : 'REG';
-            }
-          }
-
-          const nextM = this.rollNextMode(this.mode, trigger);
-          const { pattern, timing } = this.selectAnnouncementPattern(bonusType, nextM, trigger);
-
-          this.pendingBonusType = bonusType;
-          this.nextMode = nextM;
-          this.hibiscusPattern = pattern;
-          this.announceTiming = timing;
-
-          if (timing === 'LEVER') {
-            this.activateHibiscusLamps(pattern);
-            this.state = 'BONUS_READY';
-          } else if (timing === 'THIRD_STOP') {
-            this.state = 'BONUS_READY';
-          } else if (timing === 'NEXT_LEVER') {
-            this.delayedAnnouncePending = true;
-            this.state = 'BONUS_READY';
-          }
-        }
-
-        activateHibiscusLamps(pattern) {
+        /* =====================================================================
+           C. HIBISCUS LAMPS & MODE / LOTTERY ENGINE
+           ===================================================================== */
+        setHibiscusPattern(pattern) {
           const l = document.getElementById('lamp-hibiscus-l');
           const r = document.getElementById('lamp-hibiscus-r');
           const stage = document.getElementById('cabinet-stage');
+          this.clearHibiscusLamps();
 
-          l.className = 'cab-overlay hibiscus-lamp lit';
-          r.className = 'cab-overlay hibiscus-lamp lit';
+          l.classList.add('lit');
+          r.classList.add('lit');
+          stage.classList.add('flashing-stage');
 
-          if (pattern === 'alt') {
+          if (pattern === 'fast') {
+            l.classList.add('pattern-fast');
+            r.classList.add('pattern-fast');
+          } else if (pattern === 'simul') {
+            l.classList.add('pattern-simul');
+            r.classList.add('pattern-simul');
+          } else if (pattern === 'alt') {
             l.classList.add('pattern-alt-l');
             r.classList.add('pattern-alt-r');
+          } else if (pattern === 'rainbow') {
+            l.classList.add('pattern-rainbow');
+            r.classList.add('pattern-rainbow');
           } else {
-            l.classList.add(`pattern-${pattern}`);
-            r.classList.add(`pattern-${pattern}`);
+            l.classList.add('pattern-standard');
+            r.classList.add('pattern-standard');
           }
-
-          stage.classList.add('flashing-stage');
-          this.audio.playHibiscusChime(pattern);
-          this.showToast('🌺 ハイビスカス点灯！ボーナス確定！！');
         }
 
         clearHibiscusLamps() {
           const l = document.getElementById('lamp-hibiscus-l');
           const r = document.getElementById('lamp-hibiscus-r');
-          l.className = 'cab-overlay hibiscus-lamp';
-          r.className = 'cab-overlay hibiscus-lamp';
-          document.getElementById('cabinet-stage').classList.remove('flashing-stage');
+          const stage = document.getElementById('cabinet-stage');
+          const classes = ['lit', 'pattern-standard', 'pattern-fast', 'pattern-simul', 'pattern-alt-l', 'pattern-alt-r', 'pattern-rainbow'];
+          classes.forEach(c => {
+            l.classList.remove(c);
+            r.classList.remove(c);
+          });
+          stage.classList.remove('flashing-stage');
         }
 
-        /* -----------------------------------------------------------------------
-           BET & LEVER ON
-           ----------------------------------------------------------------------- */
-        handleMaxBet() {
-          this.audio.ensureContext();
-          if (this.isSpinning) return;
-          if (Date.now() < this.nextReadyTime) return;
-          if (this.betCount === 3) return;
-
-          if (this.credits < 3) {
-            this.credits = Math.min(50, this.credits + 50);
-            this.showToast('クレジット補充 (+50枚)');
+        rollNextMode(currentMode, boostSource = null) {
+          // Strong ISOMOTO guarantees HEAVEN or DOKIDOKI
+          if (boostSource === 'STRONG_ISOMOTO') {
+            return Math.random() < 0.35 ? 'DOKIDOKI' : 'HEAVEN';
+          }
+          // Weak ISOMOTO guarantees at least NORMAL_B with boosted HEAVEN
+          if (boostSource === 'WEAK_ISOMOTO') {
+            if (currentMode === 'DOKIDOKI') return Math.random() < 0.85 ? 'DOKIDOKI' : 'HEAVEN';
+            if (currentMode === 'HEAVEN') return Math.random() < 0.85 ? 'HEAVEN' : 'NORMAL_B';
+            const r = Math.random();
+            if (r < 0.12) return 'DOKIDOKI';
+            if (r < 0.62) return 'HEAVEN';
+            return 'NORMAL_B';
           }
 
-          const needed = 3 - this.betCount;
-          this.credits -= needed;
-          this.netCoins -= needed;
-          this.betCount = 3;
-          this.payoutDisplay = 0;
+          if (currentMode === 'NORMAL_A') {
+            const r = Math.random();
+            if (r < 0.04) return 'DOKIDOKI';
+            if (r < 0.24) return 'HEAVEN';
+            if (r < 0.54) return 'NORMAL_B';
+            return 'NORMAL_A';
+          }
+          if (currentMode === 'NORMAL_B') {
+            // NORMAL_B NEVER drops back to NORMAL_A
+            const r = Math.random();
+            if (r < 0.10) return 'DOKIDOKI';
+            if (r < 0.62) return 'HEAVEN';
+            return 'NORMAL_B';
+          }
+          if (currentMode === 'HEAVEN') {
+            // ~75% loop
+            const r = Math.random();
+            if (r < 0.06) return 'DOKIDOKI';
+            if (r < 0.75) return 'HEAVEN';
+            return 'NORMAL_A';
+          }
+          if (currentMode === 'DOKIDOKI') {
+            // ~85% loop
+            const r = Math.random();
+            if (r < 0.80) return 'DOKIDOKI';
+            if (r < 0.85) return 'HEAVEN';
+            return 'NORMAL_A';
+          }
+          return 'NORMAL_A';
+        }
+
+        chooseBlinkPattern(bonusType, nextMode) {
+          if (nextMode === 'DOKIDOKI' && bonusType === 'BIG' && Math.random() < 0.5) return 'rainbow';
+          if (bonusType === 'BIG' && (nextMode === 'HEAVEN' || nextMode === 'DOKIDOKI') && Math.random() < 0.45) return 'fast';
+          if ((nextMode === 'NORMAL_B' || nextMode === 'HEAVEN' || nextMode === 'DOKIDOKI') && Math.random() < 0.42) {
+            return Math.random() < 0.5 ? 'simul' : 'alt';
+          }
+          return 'standard';
+        }
+
+        createBonusPlan(forcedType = null, boostSource = null, preferDelayedAnnounce = false) {
+          const nextMode = this.rollNextMode(this.mode, boostSource);
+          let type = forcedType;
+          if (!type) {
+            if (boostSource === 'STRONG_ISOMOTO') {
+              type = 'BIG';
+            } else {
+              const bigRate = (this.mode === 'DOKIDOKI') ? 0.80 : (this.mode === 'HEAVEN' ? 0.72 : 0.65);
+              type = Math.random() < bigRate ? 'BIG' : 'REG';
+            }
+          }
+
+          let timing = 'LEVER';
+          if (preferDelayedAnnounce) {
+            timing = Math.random() < 0.58 ? 'AFTER3' : 'NEXT_LEVER';
+          } else if (type === 'BIG' && Math.random() < 0.14) {
+            timing = 'AFTER3';
+          }
+
+          const blinkPattern = this.chooseBlinkPattern(type, nextMode);
+          return { type, nextMode, blinkPattern, timing };
+        }
+
+        enterModeAfterBonus(targetMode) {
+          this.mode = targetMode;
+          this.nextMode = null;
+          this.currentG = 0;
+          if (this.mode === 'HEAVEN' || this.mode === 'DOKIDOKI') {
+            this.state = 'HEAVEN_ZONE';
+            this.targetHitG = 1 + Math.floor(Math.random() * 32);
+          } else {
+            this.state = 'HEAVEN_ZONE'; // Still 1~32G visually after bonus
+            this.targetHitG = this.ceiling;
+          }
+        }
+
+        /* =====================================================================
+           D. BET & LEVER FLOW
+           ===================================================================== */
+        handleMaxBet() {
+          if (this.phase !== 'IDLE') return;
+          this.audio.ensureContext();
+          if (this.replayCarry) {
+            this.betPlaced = 3;
+            this.phase = 'BETTED';
+            this.updateUI();
+            return;
+          }
+          if (this.credit < 3) {
+            this.credit = 50;
+            this.showToast('クレジット+50枚 自動補充！', 1400);
+          }
+          this.credit -= 3;
+          this.netMedals -= 3;
+          this.betPlaced = 3;
+          this.payout = 0;
+          this.phase = 'BETTED';
           this.audio.playBet();
           this.updateUI();
         }
 
-        handleLeverOn() {
-          this.audio.ensureContext();
-          if (this.isSpinning) return;
-          if (Date.now() < this.nextReadyTime) return;
-
-          if (this.betCount < 3) {
+        handleLever() {
+          if (this.phase === 'IDLE') {
             this.handleMaxBet();
-            if (this.betCount < 3) return;
           }
+          if (this.phase !== 'BETTED') return;
 
+          this.audio.ensureContext();
+
+          // Clear previous spin visuals & navi-miss message
+          if (this.topInterrupt && this.topInterrupt.kind === 'NAVIMISS') {
+            this.clearTopInterrupt();
+          }
+          this.winningLines = [];
+          this.winFlashUntil = 0;
+          this.clearNaviDisplay();
+
+          // Lever pull animation
           const leverEl = document.getElementById('btn-lever');
           leverEl.classList.add('pulled');
-          setTimeout(() => leverEl.classList.remove('pulled'), 160);
+          setTimeout(() => leverEl.classList.remove('pulled'), 180);
 
-          this.betCount = 0;
-          this.isSpinning = true;
-          this.stopEnabled = [false, false, false];
-          this.currentOutcome = {
-            role: 'MISS',
-            naviOrder: null,
-            pressedOrder: [],
-            isomotoStops: 0,
-            winLines: []
-          };
-          this.clearNaviBoxes();
+          this.phase = 'SPINNING';
+          this.replayCarry = false;
+          this.betPlaced = 0;
+          this.stoppedCount = 0;
+          this.stoppedOrder = [];
+          this.isomotoStopHits = 0;
+          this.naviStep = 0;
+          this.naviMissed = false;
+          this.currentNavi = null;
+          this.stopsAllowed = false;
+          this.totalSpins++;
 
-          if (this.delayedAnnouncePending) {
-            this.delayedAnnouncePending = false;
-            this.activateHibiscusLamps(this.hibiscusPattern || 'standard');
-          }
-
-          if (this.state !== 'BONUS') {
-            this.gameCount++;
-            this.totalGames++;
-            if (this.state === 'HEAVEN_ZONE' && this.gameCount > 32) {
+          // Increment G counter outside BONUS and BONUS_READY
+          if (this.state === 'NORMAL' || this.state === 'HEAVEN_ZONE') {
+            this.currentG++;
+            if (this.state === 'HEAVEN_ZONE' && this.currentG > 32) {
               this.state = 'NORMAL';
+              this.renchanCount = 0;
             }
-          } else {
-            this.totalGames++;
           }
 
-          const flag = this.forcedFlag;
+          // Determine spin outcome & delay
+          let delayedStart = false;
+          let leverAnnouncePlan = null;
+
+          // Consume any deferred 1G-late bonus (from previous ISOMOTO)
+          if (this.deferredNextLeverBonus && (this.state === 'NORMAL' || this.state === 'HEAVEN_ZONE')) {
+            leverAnnouncePlan = this.deferredNextLeverBonus;
+            this.deferredNextLeverBonus = null;
+          }
+
+          // Consume forced flags
+          const forced = this.forcedFlag;
           this.forcedFlag = null;
-          this.updateForceFlagBadge();
+          this.updateForcedFlagDisplay();
 
-          if (flag === 'JUMP_499') {
-            this.gameCount = 499;
-            this.state = 'NORMAL';
-          } else if (flag === 'FORCE_HEAVEN') {
-            this.resetTargetHitG('HEAVEN');
-            this.state = 'HEAVEN_ZONE';
-            this.gameCount = 1;
-            this.showToast('強制フラグ: 天国モード移行！');
+          if (this.state === 'BONUS_READY') {
+            // Bonus is already announced — player must align 7 or BAR on any of the 5 paylines
+            this.currentFlag = this.pendingBonus.type === 'BIG' ? 'ALIGN_BIG' : 'ALIGN_REG';
+          } else if (this.state === 'BONUS') {
+            this.rollBonusSpin(forced);
+          } else {
+            // NORMAL or HEAVEN_ZONE
+            const res = this.rollNormalSpin(forced, leverAnnouncePlan);
+            delayedStart = res.delayedStart;
           }
 
-          const isOkure = this.decideSpinOutcome(flag);
-
+          // Start reels (possibly with 400ms "遅れ" delay)
           const startSpinAction = () => {
             this.audio.playLever();
             this.audio.startReelHum();
+
+            if (this.pendingBonus && this.pendingBonus.timing === 'LEVER' && this.state !== 'BONUS_READY') {
+              this.activateHibiscusAnnouncement(this.pendingBonus);
+            }
+
+            if (this.currentNavi) {
+              this.renderNaviDisplay();
+            }
 
             this.reels.forEach(r => {
               r.spinning = true;
@@ -2540,794 +2822,1240 @@
               r.braking = false;
               r.brakeElapsed = 0;
               r.bounceOffset = 0;
-              r.speed = 26 + r.index * 1.1; // Symbols per second (top-to-bottom forward spin)
+              r.speed = this.reelSpeed; // Real-machine constant speed across all 3 reels
             });
 
             this.updateUI();
 
             const waitMs = this.autoPlay ? Math.min(180, this.delays.leverToStop) : this.delays.leverToStop;
             setTimeout(() => {
-              if (!this.isSpinning) return;
-              this.stopEnabled = [true, true, true];
-              this.updateUI();
-              if (this.autoPlay) {
-                this.scheduleAutoStops();
+              if (this.phase === 'SPINNING') {
+                this.stopsAllowed = true;
+                this.nextStopUnlockTime = 0;
+                this.updateUI();
+                if (this.autoPlay) this.scheduleAutoStop();
               }
             }, waitMs);
           };
 
-          // "Okure" (~400ms start delay -> Cherry or Bonus confirmed)
-          if (isOkure) {
+          if (delayedStart) {
+            this.showToast('……！？（遅れ発生！）', 1500);
             setTimeout(startSpinAction, 400);
           } else {
             startSpinAction();
           }
         }
 
-        decideSpinOutcome(flag) {
-          let isOkure = false;
+        rollNormalSpin(forced, prePlan) {
+          let delayedStart = false;
+          let hitPlan = prePlan || null;
 
-          if (this.state === 'BONUS_READY') {
-            this.currentOutcome.role = 'BONUS_ALIGN';
-            const sym = this.pendingBonusType === 'BIG' ? 'red7' : 'bar';
-            this.planReelTargetsForLine(sym, 1);
-            return false;
-          }
-
-          if (this.state === 'BONUS') {
-            if (flag === 'STRONG_ISO') {
-              this.currentOutcome.role = 'STRONG_ISO';
-              this.planReelTargetsForLine('isomoto', 1);
-              this.award1GRenStock('強ISOMOTO降臨！1G連確定！！');
-              return false;
-            }
-            if (flag === 'WEAK_ISO') {
-              this.currentOutcome.role = 'WEAK_ISO';
-              this.planWeakIsomoto();
-              if (Math.random() < 0.65) this.award1GRenStock('弱ISOMOTOから1G連当選！');
-              return false;
-            }
-            if (flag === '1GREN') {
-              this.award1GRenStock('強制フラグ 1G連ストック！');
-              this.currentOutcome.role = 'CHERRY';
-              this.planCherry();
-              return false;
-            }
-
-            const r = Math.random();
-            if (r < 0.72) {
-              this.currentOutcome.role = 'BELL';
-              const orders = [
-                [0, 1, 2], [0, 2, 1],
-                [1, 0, 2], [1, 2, 0],
-                [2, 0, 1], [2, 1, 0]
-              ];
-              this.currentOutcome.naviOrder = orders[Math.floor(Math.random() * orders.length)];
-              this.showNaviOrder(this.currentOutcome.naviOrder);
-              this.planReelTargetsForLine('bell', 1);
-            } else if (r < 0.84) {
-              this.currentOutcome.role = 'REPLAY';
-              this.planReelTargetsForLine('replay', 1);
-            } else if (r < 0.91) {
-              this.currentOutcome.role = 'CHERRY';
-              this.planCherry();
-              if (Math.random() < 0.25) this.award1GRenStock('チェリーから1G連当選！');
-            } else if (r < 0.96) {
-              this.currentOutcome.role = 'WEAK_ISO';
-              this.planWeakIsomoto();
-              if (Math.random() < 0.55) this.award1GRenStock('弱ISOMOTOから1G連当選！');
-            } else if (r < 0.985) {
-              this.currentOutcome.role = 'STRONG_ISO';
-              this.planReelTargetsForLine('isomoto', 1);
-              this.award1GRenStock('強ISOMOTO降臨！1G連確定！！');
-            } else {
-              this.currentOutcome.role = 'MISS';
-              this.planMiss();
-            }
-            return false;
-          }
-
-          // NORMAL or HEAVEN_ZONE
-          if (flag === 'BIG' || flag === 'REG') {
-            this.triggerBonusWin('FORCE', flag);
-            this.currentOutcome.role = 'MISS';
-            this.planMiss();
-            return this.announceTiming === 'LEVER' && Math.random() < 0.35;
-          }
-
-          if (flag === 'STRONG_ISO') {
-            this.currentOutcome.role = 'STRONG_ISO';
-            this.planReelTargetsForLine('isomoto', 1);
-            this.triggerBonusWin('STRONG_ISO', 'BIG');
-            return false;
-          }
-
-          if (flag === 'WEAK_ISO') {
-            this.currentOutcome.role = 'WEAK_ISO';
-            this.planWeakIsomoto();
-            if (Math.random() < 0.32) {
-              this.triggerBonusWin('WEAK_ISO');
-            } else if (this.mode === 'NORMAL_A' && Math.random() < 0.5) {
-              this.mode = 'NORMAL_B';
-              this.showToast('弱ISOMOTO！モードアップ気配…');
-            }
-            return false;
-          }
-
-          if (flag === 'CHERRY') {
-            this.currentOutcome.role = 'CHERRY';
-            this.planCherry();
-            if (Math.random() < 0.20) this.triggerBonusWin('CHERRY');
-            return Math.random() < 0.4;
-          }
-
-          if (this.gameCount >= this.targetHitG) {
-            this.triggerBonusWin('TARGET_G');
-            this.currentOutcome.role = 'MISS';
-            this.planMiss();
-            return this.announceTiming === 'LEVER' && Math.random() < 0.3;
-          }
-
-          const roll = Math.random();
-          if (roll < 0.137) {
-            this.currentOutcome.role = 'REPLAY';
-            this.planReelTargetsForLine('replay', 1);
-          } else if (roll < 0.245) {
-            this.currentOutcome.role = 'BELL';
-            this.planReelTargetsForLine('bell', 1);
-          } else if (roll < 0.275) {
-            this.currentOutcome.role = 'CHERRY';
-            this.planCherry();
-            if (Math.random() < 0.14) this.triggerBonusWin('CHERRY');
-            if (Math.random() < 0.35) isOkure = true;
-          } else if (roll < 0.295) {
-            this.currentOutcome.role = 'WATERMELON';
-            this.planReelTargetsForLine('watermelon', 1);
-            if (Math.random() < 0.10) this.triggerBonusWin('WATERMELON');
-          } else if (roll < 0.312) {
-            this.currentOutcome.role = 'WEAK_ISO';
-            this.planWeakIsomoto();
-            if (Math.random() < 0.30) {
-              this.triggerBonusWin('WEAK_ISO');
-            } else if (this.mode === 'NORMAL_A' && Math.random() < 0.45) {
-              this.mode = 'NORMAL_B';
-            }
-          } else if (roll < 0.316) {
-            this.currentOutcome.role = 'STRONG_ISO';
-            this.planReelTargetsForLine('isomoto', 1);
-            this.triggerBonusWin('STRONG_ISO', 'BIG');
-          } else if (roll < 0.323) {
-            this.triggerBonusWin('DIRECT');
-            this.currentOutcome.role = 'MISS';
-            this.planMiss();
-            if (this.announceTiming === 'LEVER' && Math.random() < 0.35) isOkure = true;
+          // Handle forced flags
+          if (forced === 'BIG') {
+            this.currentFlag = 'MISS';
+            hitPlan = this.createBonusPlan('BIG', null, false);
+            hitPlan.timing = 'LEVER';
+          } else if (forced === 'REG') {
+            this.currentFlag = 'MISS';
+            hitPlan = this.createBonusPlan('REG', null, false);
+            hitPlan.timing = 'LEVER';
+          } else if (forced === 'CHERRY') {
+            this.currentFlag = 'CHERRY';
+            if (Math.random() < 0.25) hitPlan = this.createBonusPlan(null, null, false);
+            delayedStart = true;
+          } else if (forced === 'WEAK_ISOMOTO') {
+            this.currentFlag = 'WEAK_ISOMOTO';
+            if (Math.random() < 0.35) hitPlan = this.createBonusPlan(null, 'WEAK_ISOMOTO', true);
+          } else if (forced === 'STRONG_ISOMOTO') {
+            this.currentFlag = 'STRONG_ISOMOTO';
+            hitPlan = this.createBonusPlan('BIG', 'STRONG_ISOMOTO', true);
+          } else if (forced === 'NAVI_BELL') {
+            this.currentFlag = 'NAVI_BELL';
+            this.currentNavi = this.generateRandomNavi();
           } else {
-            this.currentOutcome.role = 'MISS';
-            this.planMiss();
-          }
-
-          return isOkure;
-        }
-
-        /* -----------------------------------------------------------------------
-           REEL TARGETING (reel.pos = center-row index; top = pos-1, bottom = pos+1)
-           ----------------------------------------------------------------------- */
-        findSymbolIndices(reelIdx, sym) {
-          const strip = REEL_STRIPS[reelIdx];
-          const res = [];
-          strip.forEach((s, idx) => {
-            if (s === sym) res.push(idx);
-          });
-          return res;
-        }
-
-        // rowOffset: 0 = top (delta=-1), 1 = middle (delta=0), 2 = bottom (delta=+1)
-        planReelTargetsForLine(sym, rowOffset = 1) {
-          [0, 1, 2].forEach(rIdx => {
-            const candidates = this.findSymbolIndices(rIdx, sym);
-            const chosen = candidates[Math.floor(Math.random() * candidates.length)];
-            this.reels[rIdx].targetIdx = (chosen + (1 - rowOffset) + 21) % 21;
-          });
-        }
-
-        planCherry() {
-          const candidates = this.findSymbolIndices(0, 'cherry');
-          const chosen = candidates[Math.floor(Math.random() * candidates.length)];
-          const row = Math.random() < 0.5 ? 0 : 2;
-          this.reels[0].targetIdx = (chosen + (1 - row) + 21) % 21;
-          this.reels[1].targetIdx = Math.floor(Math.random() * 21);
-          this.reels[2].targetIdx = Math.floor(Math.random() * 21);
-        }
-
-        planWeakIsomoto() {
-          const count = Math.random() < 0.55 ? 2 : 1;
-          const activeReels = count === 2 ? [0, 1] : [Math.floor(Math.random() * 2)];
-          [0, 1, 2].forEach(rIdx => {
-            if (activeReels.includes(rIdx)) {
-              const c = this.findSymbolIndices(rIdx, 'isomoto');
-              const chosen = c[Math.floor(Math.random() * c.length)];
-              this.reels[rIdx].targetIdx = chosen; // Middle row
-            } else {
-              let idx = Math.floor(Math.random() * 21);
-              let guard = 0;
-              while (
-                guard < 21 &&
-                (REEL_STRIPS[rIdx][idx] === 'isomoto' ||
-                 REEL_STRIPS[rIdx][(idx + 20) % 21] === 'isomoto' ||
-                 REEL_STRIPS[rIdx][(idx + 1) % 21] === 'isomoto')
-              ) {
-                idx = (idx + 1) % 21;
-                guard++;
+            // Normal lottery
+            const r = Math.random();
+            if (r < 0.0025) {
+              this.currentFlag = 'STRONG_ISOMOTO';
+              hitPlan = this.createBonusPlan('BIG', 'STRONG_ISOMOTO', true);
+            } else if (r < 0.018) {
+              this.currentFlag = 'WEAK_ISOMOTO';
+              if (Math.random() < 0.30) {
+                hitPlan = this.createBonusPlan(null, 'WEAK_ISOMOTO', true);
               }
-              this.reels[rIdx].targetIdx = idx;
-            }
-          });
-        }
-
-        planMiss() {
-          for (let attempt = 0; attempt < 30; attempt++) {
-            const t = [
-              Math.floor(Math.random() * 21),
-              Math.floor(Math.random() * 21),
-              Math.floor(Math.random() * 21)
-            ];
-            const mid0 = REEL_STRIPS[0][t[0]];
-            const mid1 = REEL_STRIPS[1][t[1]];
-            const top0 = REEL_STRIPS[0][(t[0] + 20) % 21];
-            const bot0 = REEL_STRIPS[0][(t[0] + 1) % 21];
-            if (mid0 !== mid1 && top0 !== 'cherry' && bot0 !== 'cherry' && mid0 !== 'isomoto') {
-              this.reels[0].targetIdx = t[0];
-              this.reels[1].targetIdx = t[1];
-              this.reels[2].targetIdx = t[2];
-              return;
-            }
-          }
-        }
-
-        /* -----------------------------------------------------------------------
-           REEL STOP (STRICTLY FORWARD GLIDE-IN + STEPPING MOTOR BRAKE)
-           ----------------------------------------------------------------------- */
-        handleStopReel(reelIdx) {
-          if (!this.isSpinning) return;
-          if (!this.stopEnabled[reelIdx]) return;
-          const reel = this.reels[reelIdx];
-          if (!reel.spinning || reel.stopping) return;
-
-          const now = Date.now();
-          const minInterval = this.autoPlay ? Math.min(90, this.delays.betweenStops) : this.delays.betweenStops;
-          if (now - this.lastStopTime < minInterval) return;
-
-          this.lastStopTime = now;
-          this.stopEnabled[reelIdx] = false;
-          this.currentOutcome.pressedOrder.push(reelIdx);
-          this.dimNaviBox(reelIdx);
-
-          // Forward distance in the DECREASING reel.pos direction (never reverses!)
-          let dist = (reel.pos - reel.targetIdx + 21) % 21;
-          // Keep slip crisp (0 to ~3.2 symbols) like real-machine 4-coma pull-in control
-          if (dist > 3.2) {
-            const crispSlip = 1.2 + (dist % 1.8);
-            reel.pos = (reel.targetIdx + crispSlip) % 21;
-            dist = crispSlip;
-          }
-
-          reel.stopping = true;
-          reel.stopRemain = dist;
-          reel.onLanded = () => {
-            const midSym = REEL_STRIPS[reelIdx][reel.targetIdx];
-            if (midSym === 'isomoto') {
-              this.currentOutcome.isomotoStops++;
-              this.audio.playIsomotoStop(this.currentOutcome.isomotoStops);
-              this.showToast(`🔥 ISOMOTO停止 (${this.currentOutcome.isomotoStops}リール)！`);
+            } else if (r < 0.036) {
+              this.currentFlag = 'CHERRY';
+              if (Math.random() < 0.14) hitPlan = this.createBonusPlan(null, null, false);
+              if (Math.random() < 0.35 || hitPlan) delayedStart = true;
+            } else if (r < 0.056) {
+              this.currentFlag = 'WATERMELON';
+              if (Math.random() < 0.10) hitPlan = this.createBonusPlan(null, null, false);
+            } else if (r < 0.185) {
+              this.currentFlag = 'REPLAY';
+            } else if (r < 0.275) {
+              this.currentFlag = 'BELL';
             } else {
-              this.audio.playStop(reelIdx);
+              this.currentFlag = 'MISS';
             }
 
-            this.updateUI();
-
-            if (this.reels.every(r => !r.spinning && !r.stopping)) {
-              this.onAllReelsStopped();
+            // Heaven / Dokidoki pre-decided G hit or Ceiling hit
+            if (!hitPlan) {
+              const modeHit = (this.mode === 'HEAVEN' || this.mode === 'DOKIDOKI') && this.currentG >= this.targetHitG;
+              const ceilingHit = this.currentG >= this.ceiling;
+              const naturalHit = Math.random() < (this.mode === 'NORMAL_B' ? (1 / 175) : (1 / 215));
+              if (modeHit || ceilingHit || naturalHit) {
+                hitPlan = this.createBonusPlan(null, null, false);
+                if (hitPlan.timing === 'LEVER' && Math.random() < 0.22) {
+                  delayedStart = true;
+                }
+              }
             }
-          };
-
-          this.updateUI();
-        }
-
-        onAllReelsStopped() {
-          this.audio.stopReelHum();
-          this.isSpinning = false;
-          this.nextReadyTime = Date.now() + (this.autoPlay ? Math.min(120, this.delays.afterThirdStop) : this.delays.afterThirdStop);
-
-          if (this.state === 'BONUS_READY' && this.announceTiming === 'THIRD_STOP') {
-            this.announceTiming = 'DONE';
-            const reelWin = document.getElementById('reel-window');
-            reelWin.classList.add('blackout');
-            this.audio.playBlackout();
-            setTimeout(() => {
-              reelWin.classList.remove('blackout');
-              this.activateHibiscusLamps(this.hibiscusPattern || 'fast');
-            }, 260);
           }
 
-          this.evaluatePayoutAndState();
-          this.updateUI();
+          if (hitPlan) {
+            this.pendingBonus = hitPlan;
+            this.nextMode = hitPlan.nextMode;
+            if (hitPlan.timing === 'NEXT_LEVER') {
+              this.deferredNextLeverBonus = { ...hitPlan, timing: 'LEVER' };
+              this.pendingBonus = null;
+            }
+          }
+
+          return { delayedStart };
         }
 
-        evaluatePayoutAndState() {
-          const role = this.currentOutcome.role;
-          let payout = 0;
-
-          if (role === 'BONUS_ALIGN') {
-            this.clearHibiscusLamps();
-            this.clearNaviBoxes();
-            this.startBonusSession();
+        rollBonusSpin(forced) {
+          if (forced === 'STRONG_ISOMOTO') {
+            this.currentFlag = 'STRONG_ISOMOTO';
+            this.award1GRen('強ISOMOTO降臨！ 1G連確定!!');
+            return;
+          }
+          if (forced === 'WEAK_ISOMOTO') {
+            this.currentFlag = 'WEAK_ISOMOTO';
+            if (Math.random() < 0.55) this.award1GRen('弱ISOMOTOから1G連当選!!');
+            return;
+          }
+          if (forced === 'CHERRY') {
+            this.currentFlag = 'CHERRY';
+            if (Math.random() < 0.35) this.award1GRen('チェリーで1G連当選!!');
+            return;
+          }
+          if (forced === 'NAVI_BELL') {
+            this.currentFlag = 'NAVI_BELL';
+            this.currentNavi = this.generateRandomNavi();
             return;
           }
 
-          if (role === 'REPLAY') {
-            this.audio.playReplay();
-            this.betCount = 3;
-            this.currentOutcome.winLines = [1];
-            this.showToast('REPLAY！再遊技');
-          } else if (role === 'BELL') {
-            if (this.state === 'BONUS' && this.currentOutcome.naviOrder) {
-              const expected = this.currentOutcome.naviOrder.join(',');
-              const actual = this.currentOutcome.pressedOrder.join(',');
-              if (expected === actual) {
-                payout = 10;
-                this.audio.playBell();
-                this.currentOutcome.winLines = [1];
-              } else {
-                payout = 2;
-                this.audio.playStop(1);
-                this.showToast('押し順ミス！ナビ通り押そう');
-              }
-            } else {
-              payout = 10;
-              this.audio.playBell();
-              this.currentOutcome.winLines = [1];
-            }
-          } else if (role === 'CHERRY') {
-            payout = 4;
-            this.audio.playCherry();
-            this.currentOutcome.winLines = [0];
-            this.showToast('🍒 チェリー入賞！ (+4枚)');
-          } else if (role === 'WATERMELON') {
-            payout = 6;
-            this.audio.playCherry();
-            this.currentOutcome.winLines = [1];
-            this.showToast('🍉 スイカ入賞！ (+6枚)');
-          } else if (role === 'WEAK_ISO') {
-            payout = 3;
-            this.currentOutcome.winLines = [1];
-          } else if (role === 'STRONG_ISO') {
-            payout = 15;
-            this.currentOutcome.winLines = [1];
-            this.showToast('⚡ 強ISOMOTO揃い！！BIG＆天国以上確定！');
-          }
-
-          if (payout > 0) {
-            this.credits = Math.min(50, this.credits + payout);
-            this.netCoins += payout;
-            this.payoutDisplay = payout;
-            if (this.state === 'BONUS') {
-              this.currentBonusCoins += payout;
-            }
-          }
-
-          if (this.state === 'BONUS') {
-            this.bonusGamesLeft--;
-            if (this.bonusGamesLeft <= 0) {
-              this.finishBonusSession();
+          // Standard pseudo-bonus spin: high rate push-order bell (+7 net) + rare 1G-ren lottery
+          const r = Math.random();
+          if (r < 0.008) {
+            this.currentFlag = 'STRONG_ISOMOTO';
+            this.award1GRen('強ISOMOTO降臨！ 1G連確定!!');
+          } else if (r < 0.032) {
+            this.currentFlag = 'WEAK_ISOMOTO';
+            if (Math.random() < 0.45) this.award1GRen('弱ISOMOTOでカナちゃん点灯！');
+          } else if (r < 0.060) {
+            this.currentFlag = 'CHERRY';
+            if (Math.random() < 0.25) this.award1GRen('チェリーでカナちゃん点灯！');
+          } else if (r < 0.085) {
+            this.currentFlag = 'WATERMELON';
+            if (Math.random() < 0.20) this.award1GRen('スイカでカナちゃん点灯！');
+          } else if (r < 0.16) {
+            this.currentFlag = 'REPLAY';
+          } else {
+            this.currentFlag = 'NAVI_BELL';
+            this.currentNavi = this.generateRandomNavi();
+            if (Math.random() < 0.015) {
+              this.award1GRen('押し順ベルで奇跡の1G連!!');
             }
           }
         }
 
-        /* -----------------------------------------------------------------------
-           PSEUDO-BONUS & 1G-REN STOCK FLOW
-           ----------------------------------------------------------------------- */
-        startBonusSession() {
-          const type = this.pendingBonusType || 'BIG';
-          this.currentBonusType = type;
-          this.currentBonusStartG = this.gameCount;
-          this.currentBonusCoins = 0;
-          this.chainCount++;
-          this.state = 'BONUS';
-          this.bonusGamesLeft = type === 'BIG' ? 50 : 20;
-
-          if (type === 'BIG') this.bigTotal++;
-          else this.regTotal++;
-
-          const bgmKind = type === 'REG'
-            ? 'REG'
-            : (this.mode === 'DOKIDOKI' || this.nextMode === 'DOKIDOKI' ? 'DOKIDOKI' : 'BIG');
-          this.audio.startBonusBgm(bgmKind);
-          document.getElementById('reel-window').classList.add('bonus-lit');
-          this.showToast(`🎉 ${type} BONUS スタート！ (${this.bonusGamesLeft}G)`);
-        }
-
-        award1GRenStock(reasonText) {
-          this.stock1G++;
-          // Prevent mode drop on 1G-ren; force upgrade to HEAVEN if below HEAVEN
-          if (this.nextMode === 'NORMAL_A' || this.nextMode === 'NORMAL_B' || !this.nextMode) {
+        award1GRen(message = 'カナちゃんランプ点灯！ 1G連確定!!') {
+          this.oneGRenStock++;
+          // Rule: 1G-Ren prohibits mode demotion (upgrades below HEAVEN to HEAVEN)
+          if (this.nextMode !== 'DOKIDOKI') {
             this.nextMode = 'HEAVEN';
           }
           this.refreshChanceLampState();
           this.audio.playKanaFanfare();
-          this.showToast(`🌺 ${reasonText}`);
+          this.showToast(message, 2800);
+          this.triggerTopInterrupt('1GREN', '1G連 確定!!', 'カナちゃん点灯!', 2800);
+          this.updateUI();
         }
 
-        finishBonusSession() {
-          this.audio.stopBonusBgm();
-          this.clearNaviBoxes();
+        activateHibiscusAnnouncement(plan) {
+          this.state = 'BONUS_READY';
+          this.pendingBonus = plan;
+          this.nextMode = plan.nextMode;
+          this.setHibiscusPattern(plan.blinkPattern);
+          this.audio.playHibiscusChime(plan.blinkPattern);
+          document.getElementById('reel-window').classList.add('bonus-lit');
+          const hint = plan.type === 'REG' ? 'BARを狙え!!' : '赤7 / 黄7 を狙え!!';
+          this.showToast(`🌺 ハイビスカス点灯！ ${hint}`, 2600);
+          this.updateTopSignboard();
+          this.updateUI();
+        }
+
+        generateRandomNavi() {
+          const orders = [
+            [0, 1, 2], [0, 2, 1],
+            [1, 0, 2], [1, 2, 0],
+            [2, 0, 1], [2, 1, 0]
+          ];
+          return orders[Math.floor(Math.random() * orders.length)];
+        }
+
+        renderNaviDisplay() {
+          if (!this.currentNavi) return;
+          // currentNavi[orderIdx] = reelIdx
+          this.currentNavi.forEach((reelIdx, orderIdx) => {
+            const box = document.getElementById(`nav-${reelIdx}`);
+            box.className = 'cab-overlay navi-box';
+            box.textContent = String(orderIdx + 1);
+            box.classList.add(`active-${orderIdx + 1}`);
+          });
+        }
+
+        clearNaviDisplay() {
+          for (let i = 0; i < 3; i++) {
+            const box = document.getElementById(`nav-${i}`);
+            box.className = 'cab-overlay navi-box';
+            box.textContent = '';
+          }
+        }
+
+        /* =====================================================================
+           E. 5-LINE STOP CONTROL, FORWARD SLIP & BONUS MEOSHI LOGIC
+           ===================================================================== */
+        getWindowSymbols(reelIdx, centerIdx) {
+          const strip = REEL_STRIPS[reelIdx];
+          const c = ((centerIdx % 21) + 21) % 21;
+          return [
+            strip[(c - 1 + 21) % 21], // row 0 (top)
+            strip[c],                 // row 1 (middle)
+            strip[(c + 1) % 21]       // row 2 (bottom)
+          ];
+        }
+
+        findCenterForSymbolAtRow(reelIdx, sym, row) {
+          const strip = REEL_STRIPS[reelIdx];
+          const matches = [];
+          for (let c = 0; c < 21; c++) {
+            const win = this.getWindowSymbols(reelIdx, c);
+            if (win[row] === sym) matches.push(c);
+          }
+          return matches;
+        }
+
+        // Returns candidates within [0 .. maxSlip] forward (downward: decreasing index) from currentPos
+        getReachableCenters(currentPos, maxSlip) {
+          const base = Math.floor(currentPos);
+          const list = [];
+          for (let s = 0; s <= maxSlip; s++) {
+            list.push(((base - s) % 21 + 21) % 21);
+          }
+          return list;
+        }
+
+        hasAnyUnintendedWin(centers) {
+          const wins = [0, 1, 2].map(r => this.getWindowSymbols(r, centers[r]));
+          // Avoid cherry anywhere on left reel for non-cherry miss
+          if (wins[0].includes('cherry')) return true;
+          // Avoid any 3-of-a-kind across all 5 paylines
+          for (let li = 0; li < PAYLINES.length; li++) {
+            const line = PAYLINES[li];
+            const s0 = wins[0][line[0]];
+            const s1 = wins[1][line[1]];
+            const s2 = wins[2][line[2]];
+            if (s0 === s1 && s1 === s2) return true;
+          }
+          return false;
+        }
+
+        chooseTargetIndexForReel(reelIdx) {
+          const reel = this.reels[reelIdx];
+          const flag = this.currentFlag;
+          const baseCenter = ((Math.floor(reel.pos) % 21) + 21) % 21;
+
+          // Helper: get already decided center indices of other stopped/stopping reels
+          const decidedCenters = this.reels.map(r => (r.spinning && !r.stopping ? null : r.targetIdx));
+
+          // 1. BONUS_READY: Meoshi Required (Manual Play) or Auto-Pull (Auto Play)
+          if (flag === 'ALIGN_BIG' || flag === 'ALIGN_REG') {
+            const targets = flag === 'ALIGN_BIG' ? ['red7', 'yellow7'] : ['bar'];
+            const maxSlip = this.autoPlay ? 20 : this.meoshiGrace;
+            const reachable = this.getReachableCenters(reel.pos, maxSlip);
+
+            // Check if any already-stopped reel has a target symbol to coordinate paylines
+            const lockedSym = this.findLockedBonusSymbol(targets, decidedCenters);
+            const allowedSyms = lockedSym ? [lockedSym] : targets;
+
+            // Evaluate reachable centers: prefer completing/continuing a valid 5-line match
+            for (const c of reachable) {
+              const win = this.getWindowSymbols(reelIdx, c);
+              for (const sym of allowedSyms) {
+                for (let row = 0; row < 3; row++) {
+                  if (win[row] !== sym) continue;
+                  if (this.canFormPaylineWith(reelIdx, row, sym, decidedCenters)) {
+                    return c;
+                  }
+                }
+              }
+            }
+            // Missed timing: land cleanly near current position without accidental alignment
+            return this.findSafeNonAlignCenter(reelIdx, reachable, decidedCenters);
+          }
+
+          // 2. Push-Order Navi Miss -> force non-bell / non-winning landing
+          if (flag === 'NAVI_BELL' && this.naviMissed) {
+            return this.findSafeMissCenter(reelIdx, decidedCenters);
+          }
+
+          // 3. Standard 5-line Aligned Small Roles (BELL, NAVI_BELL, REPLAY, WATERMELON, STRONG_ISOMOTO)
+          const alignMap = {
+            BELL: 'bell',
+            NAVI_BELL: 'bell',
+            REPLAY: 'replay',
+            WATERMELON: 'watermelon',
+            STRONG_ISOMOTO: 'isomoto'
+          };
+          if (alignMap[flag]) {
+            const sym = alignMap[flag];
+            // Pick a target payline once per spin (randomized across all 5 paylines!)
+            if (this._spinTargetLine === undefined || this._spinTargetLine === null) {
+              this._spinTargetLine = Math.floor(Math.random() * PAYLINES.length);
+            }
+            const targetRow = PAYLINES[this._spinTargetLine][reelIdx];
+            const candidates = this.findCenterForSymbolAtRow(reelIdx, sym, targetRow);
+            if (candidates.length > 0) {
+              return this.pickClosestForward(reel.pos, candidates);
+            }
+          }
+
+          // 4. CHERRY: Left reel stops cherry on top or bottom corner (row 0 or 2), others safe
+          if (flag === 'CHERRY') {
+            if (reelIdx === 0) {
+              const cands = [
+                ...this.findCenterForSymbolAtRow(0, 'cherry', 0),
+                ...this.findCenterForSymbolAtRow(0, 'cherry', 2)
+              ];
+              return this.pickClosestForward(reel.pos, cands);
+            }
+            return this.findSafeMissCenter(reelIdx, decidedCenters, true);
+          }
+
+          // 5. WEAK_ISOMOTO: Land ISOMOTO on 1 or 2 reels (never all 3 on a payline)
+          if (flag === 'WEAK_ISOMOTO') {
+            if (!this._weakIsoReels) {
+              const count = Math.random() < 0.55 ? 2 : 1;
+              const all = [0, 1, 2].sort(() => Math.random() - 0.5);
+              this._weakIsoReels = all.slice(0, count);
+            }
+            if (this._weakIsoReels.includes(reelIdx)) {
+              const row = Math.floor(Math.random() * 3);
+              const cands = this.findCenterForSymbolAtRow(reelIdx, 'isomoto', row);
+              if (cands.length > 0) return this.pickClosestForward(reel.pos, cands);
+            }
+            return this.findSafeMissCenter(reelIdx, decidedCenters);
+          }
+
+          // 6. MISS: Guarantee no accidental 5-line win or left cherry
+          return this.findSafeMissCenter(reelIdx, decidedCenters);
+        }
+
+        findLockedBonusSymbol(targets, decidedCenters) {
+          for (let r = 0; r < 3; r++) {
+            if (decidedCenters[r] === null) continue;
+            const win = this.getWindowSymbols(r, decidedCenters[r]);
+            for (const sym of targets) {
+              if (win.includes(sym)) return sym;
+            }
+          }
+          return null;
+        }
+
+        canFormPaylineWith(reelIdx, row, sym, decidedCenters) {
+          for (let li = 0; li < PAYLINES.length; li++) {
+            const line = PAYLINES[li];
+            if (line[reelIdx] !== row) continue;
+            let compatible = true;
+            for (let r = 0; r < 3; r++) {
+              if (r === reelIdx || decidedCenters[r] === null) continue;
+              const win = this.getWindowSymbols(r, decidedCenters[r]);
+              if (win[line[r]] !== sym) {
+                compatible = false;
+                break;
+              }
+            }
+            if (compatible) return true;
+          }
+          return false;
+        }
+
+        findSafeNonAlignCenter(reelIdx, reachable, decidedCenters) {
+          for (const c of reachable) {
+            const win = this.getWindowSymbols(reelIdx, c);
+            if (!win.includes('red7') && !win.includes('yellow7') && !win.includes('bar')) {
+              return c;
+            }
+          }
+          return reachable[0];
+        }
+
+        findSafeMissCenter(reelIdx, decidedCenters, allowLeftCherry = false) {
+          const base = ((Math.floor(this.reels[reelIdx].pos) % 21) + 21) % 21;
+          for (let slip = 0; slip < 21; slip++) {
+            const c = ((base - slip) % 21 + 21) % 21;
+            const win = this.getWindowSymbols(reelIdx, c);
+            if (!allowLeftCherry && reelIdx === 0 && win.includes('cherry')) continue;
+
+            // Check against already decided reels on all 5 paylines
+            const temp = [...decidedCenters];
+            temp[reelIdx] = c;
+            if (temp.every(x => x !== null)) {
+              if (allowLeftCherry) {
+                // Only prevent 3-of-a-kind
+                const wins = [0, 1, 2].map(r => this.getWindowSymbols(r, temp[r]));
+                let three = false;
+                for (const line of PAYLINES) {
+                  if (wins[0][line[0]] === wins[1][line[1]] && wins[1][line[1]] === wins[2][line[2]]) {
+                    three = true;
+                    break;
+                  }
+                }
+                if (!three) return c;
+              } else if (!this.hasAnyUnintendedWin(temp)) {
+                return c;
+              }
+            } else {
+              // Avoid 2-reel cherry or accidental strong triple setup
+              return c;
+            }
+          }
+          return base;
+        }
+
+        pickClosestForward(currentPos, candidates) {
+          let best = candidates[0];
+          let minDist = 999;
+          for (const c of candidates) {
+            let d = ((currentPos - c) % 21 + 21) % 21;
+            if (d < 0.08) d += 0.01;
+            if (d < minDist) {
+              minDist = d;
+              best = c;
+            }
+          }
+          return best;
+        }
+
+        handleStop(reelIdx) {
+          if (this.phase !== 'SPINNING' || !this.stopsAllowed) return;
+          const now = performance.now();
+          if (!this.autoPlay && now < this.nextStopUnlockTime) return;
+
+          const reel = this.reels[reelIdx];
+          if (!reel.spinning || reel.stopping) return;
+
+          // First stop initializes spin-specific target line
+          if (this.stoppedCount === 0) {
+            this._spinTargetLine = null;
+            this._weakIsoReels = null;
+          }
+
+          // Check push-order Navi immediately on stop press
+          if (this.currentNavi && !this.naviMissed) {
+            const expectedReel = this.currentNavi[this.naviStep];
+            if (reelIdx !== expectedReel) {
+              this.naviMissed = true;
+              const wrongBox = document.getElementById(`nav-${reelIdx}`);
+              wrongBox.classList.add('miss-flash');
+              this.audio.playNaviMiss();
+              this.triggerTopInterrupt('NAVIMISS', 'さるすぎる．．．', '', 3500);
+              this.showToast('ナビミス！ さるすぎる．．．', 2400);
+            } else {
+              const okBox = document.getElementById(`nav-${reelIdx}`);
+              okBox.classList.add('stopped');
+              this.naviStep++;
+            }
+          } else if (this.currentNavi) {
+            document.getElementById(`nav-${reelIdx}`).classList.add('stopped');
+          }
+
+          const targetIdx = this.chooseTargetIndexForReel(reelIdx);
+          reel.stopping = true;
+          reel.targetIdx = targetIdx;
+          let dist = ((reel.pos - targetIdx) % 21 + 21) % 21;
+          if (dist < 0.05) dist = 0.05;
+          reel.stopRemain = dist;
+
+          // Visual press flash
+          const btn = document.getElementById(`btn-stop-${reelIdx}`);
+          btn.classList.add('pressed');
+          setTimeout(() => btn.classList.remove('pressed'), 110);
+
+          this.stoppedCount++;
+          this.stoppedOrder.push(reelIdx);
+          this.nextStopUnlockTime = now + (this.autoPlay ? Math.min(90, this.delays.betweenStops) : this.delays.betweenStops);
+
+          reel.onLanded = () => {
+            const win = this.getWindowSymbols(reelIdx, targetIdx);
+            if (win.includes('isomoto') && (this.currentFlag === 'WEAK_ISOMOTO' || this.currentFlag === 'STRONG_ISOMOTO')) {
+              this.isomotoStopHits++;
+              this.audio.playIsomotoStop(this.isomotoStopHits);
+            } else {
+              this.audio.playStop(reelIdx);
+            }
+
+            // Check Bonus Tenpai chime on 2nd stop during BONUS_READY
+            if (this.state === 'BONUS_READY' && this.stoppedCount === 2) {
+              const targets = this.pendingBonus.type === 'BIG' ? ['red7', 'yellow7'] : ['bar'];
+              if (this.checkBonusTenpai(targets)) {
+                this.audio.playTenpai();
+              }
+            }
+
+            // If all 3 reels have physically landed, evaluate spin!
+            if (this.reels.every(r => !r.spinning && !r.stopping)) {
+              this.audio.stopReelHum();
+              this.evaluateSpinResult();
+            }
+          };
+
+          this.updateUI();
+        }
+
+        checkBonusTenpai(targets) {
+          const stoppedIndices = this.reels.map(r => (!r.spinning ? r.targetIdx : null));
+          for (const line of PAYLINES) {
+            const syms = [];
+            for (let r = 0; r < 3; r++) {
+              if (stoppedIndices[r] !== null) {
+                syms.push(this.getWindowSymbols(r, stoppedIndices[r])[line[r]]);
+              }
+            }
+            if (syms.length === 2 && syms[0] === syms[1] && targets.includes(syms[0])) {
+              return true;
+            }
+          }
+          return false;
+        }
+
+        /* =====================================================================
+           F. 5-LINE EVALUATION, PAYOUTS & BONUS TRANSITIONS
+           ===================================================================== */
+        evaluateSpinResult() {
+          this.phase = 'EVALUATING';
+          const centers = this.reels.map(r => r.targetIdx);
+          const wins = [0, 1, 2].map(r => this.getWindowSymbols(r, centers[r]));
+
+          const matchedLines = [];
+          for (let li = 0; li < PAYLINES.length; li++) {
+            const line = PAYLINES[li];
+            const s0 = wins[0][line[0]];
+            const s1 = wins[1][line[1]];
+            const s2 = wins[2][line[2]];
+            if (s0 === s1 && s1 === s2) {
+              matchedLines.push({ lineIdx: li, sym: s0 });
+            }
+          }
+
+          let pay = 0;
+          let isReplay = false;
+          let bonusAligned = false;
+
+          // 1. Evaluate BONUS_READY alignment across all 5 lines
+          if (this.state === 'BONUS_READY' && this.pendingBonus) {
+            const wanted = this.pendingBonus.type === 'BIG' ? ['red7', 'yellow7'] : ['bar'];
+            const hit = matchedLines.find(m => wanted.includes(m.sym));
+            if (hit) {
+              bonusAligned = true;
+              this.winningLines = matchedLines
+                .filter(m => wanted.includes(m.sym))
+                .map(m => ({ lineIdx: m.lineIdx, color: '#ff1e56' }));
+              this.winFlashUntil = performance.now() + 2600;
+              this.startBonusFromReady();
+            } else {
+              // Missed Meoshi: refund 3 medals and stay in BONUS_READY
+              this.audio.playMeoshiMiss();
+              this.credit = Math.min(50, this.credit + 3);
+              this.netMedals += 3;
+              const targetLabel = this.pendingBonus.type === 'REG' ? 'BAR' : '7';
+              this.showToast(`目押しミス！ 3枚返却・もう一回 ${targetLabel} を狙おう！`, 2000);
+            }
+          } else {
+            // 2. Normal / Bonus small role evaluation across all 5 paylines
+            const bellLines = matchedLines.filter(m => m.sym === 'bell');
+            const repLines = matchedLines.filter(m => m.sym === 'replay');
+            const wmLines = matchedLines.filter(m => m.sym === 'watermelon');
+            const isoLines = matchedLines.filter(m => m.sym === 'isomoto');
+            const hasCherry = wins[0].includes('cherry');
+
+            if (isoLines.length > 0) {
+              pay = 6;
+              this.winningLines = isoLines.map(m => ({ lineIdx: m.lineIdx, color: '#ffd700' }));
+              this.winFlashUntil = performance.now() + 2200;
+              this.showToast('🔥 強ISOMOTO揃い!!', 2200);
+            } else if (bellLines.length > 0) {
+              pay = this.currentFlag === 'NAVI_BELL' ? 10 : 7;
+              this.winningLines = bellLines.map(m => ({ lineIdx: m.lineIdx, color: '#facc15' }));
+              this.winFlashUntil = performance.now() + 1400;
+              this.audio.playBell();
+            } else if (wmLines.length > 0) {
+              pay = 5;
+              this.winningLines = wmLines.map(m => ({ lineIdx: m.lineIdx, color: '#22c55e' }));
+              this.winFlashUntil = performance.now() + 1600;
+              this.audio.playCherry();
+              this.showToast('🍉 スイカ入賞！ +5枚', 1400);
+            } else if (repLines.length > 0) {
+              isReplay = true;
+              this.replayCarry = true;
+              this.winningLines = repLines.map(m => ({ lineIdx: m.lineIdx, color: '#38bdf8' }));
+              this.winFlashUntil = performance.now() + 1400;
+              this.audio.playReplay();
+            } else if (hasCherry) {
+              pay = 2;
+              this.audio.playCherry();
+              this.showToast('🍒 チェリー！ +2枚', 1400);
+            }
+
+            if (pay > 0) {
+              this.payout = pay;
+              this.credit = Math.min(50, this.credit + pay);
+              this.netMedals += pay;
+              if (this.state === 'BONUS' && this.activeBonus) {
+                this.activeBonus.earned += pay;
+              }
+            }
+
+            // 3. Handle AFTER3 announcement (brief reel blackout -> Hibiscus lit -> BIG)
+            if (this.pendingBonus && this.pendingBonus.timing === 'AFTER3' && this.state !== 'BONUS') {
+              const plan = this.pendingBonus;
+              const reelWin = document.getElementById('reel-window');
+              reelWin.classList.add('blackout');
+              this.audio.playBlackout();
+              setTimeout(() => {
+                reelWin.classList.remove('blackout');
+                this.activateHibiscusAnnouncement(plan);
+              }, 360);
+            }
+
+            // 4. Advance Bonus remaining games
+            if (this.state === 'BONUS' && this.activeBonus) {
+              this.activeBonus.remainG--;
+              if (this.activeBonus.remainG <= 0) {
+                this.finishActiveBonus();
+              }
+            }
+          }
+
+          this.updateTopSignboard();
+          this.updateUI();
+
+          const endWait = this.autoPlay ? Math.min(160, this.delays.afterThirdStop) : this.delays.afterThirdStop;
+          setTimeout(() => {
+            this.phase = 'IDLE';
+            this.updateUI();
+            if (this.autoPlay) {
+              this.autoTimer = setTimeout(() => {
+                if (this.autoPlay && this.phase === 'IDLE') this.handleLever();
+              }, 140);
+            }
+          }, endWait);
+        }
+
+        startBonusFromReady() {
+          const plan = this.pendingBonus;
+          this.pendingBonus = null;
+          this.clearHibiscusLamps();
           document.getElementById('reel-window').classList.remove('bonus-lit');
 
-          this.history.unshift({
-            game: this.currentBonusStartG,
-            type: this.currentBonusType,
-            coins: Math.max(0, this.currentBonusCoins),
-            chain: this.chainCount
-          });
-          if (this.history.length > 40) this.history.pop();
-          this.renderHistoryList();
+          const totalG = plan.type === 'BIG' ? 50 : 20;
+          this.renchanCount++;
+          if (plan.type === 'BIG') this.bigCount++;
+          else this.regCount++;
 
-          const appliedNextMode = this.nextMode || 'NORMAL_A';
-          this.resetTargetHitG(appliedNextMode);
-          this.gameCount = 0;
-
-          if (this.stock1G > 0) {
-            this.stock1G--;
-            this.refreshChanceLampState();
-
-            if (this.mode === 'NORMAL_A' || this.mode === 'NORMAL_B') {
-              this.resetTargetHitG('HEAVEN');
-            }
-            this.targetHitG = 1;
-            this.state = 'HEAVEN_ZONE';
-            this.triggerBonusWin('1GREN_RELEASE', 'BIG');
-            this.showToast('🌺 カナちゃん1G連放出！BIG確定！！');
-          } else {
-            this.state = 'HEAVEN_ZONE';
-            if (this.mode === 'HEAVEN' || this.mode === 'DOKIDOKI') {
-              this.showToast('🔥 32G天国ゾーン突入！');
-            } else {
-              this.chainCount = 0;
-              this.showToast('BONUS終了 (32G引き戻しチェック)');
-            }
-          }
-        }
-
-        /* -----------------------------------------------------------------------
-           NAVI BOXES (#nav-0, #nav-1, #nav-2) & PUSH BUTTON
-           ----------------------------------------------------------------------- */
-        showNaviOrder(order) {
-          const ids = ['nav-0', 'nav-1', 'nav-2'];
-          order.forEach((reelIdx, stepIdx) => {
-            const el = document.getElementById(ids[reelIdx]);
-            const num = stepIdx + 1;
-            el.textContent = String(num);
-            el.className = `cab-overlay navi-box active-${num}`;
-          });
-        }
-
-        dimNaviBox(reelIdx) {
-          const ids = ['nav-0', 'nav-1', 'nav-2'];
-          const el = document.getElementById(ids[reelIdx]);
-          if (el && el.textContent) {
-            el.classList.add('stopped');
-          }
-        }
-
-        clearNaviBoxes() {
-          ['nav-0', 'nav-1', 'nav-2'].forEach(id => {
-            const el = document.getElementById(id);
-            el.textContent = '';
-            el.className = 'cab-overlay navi-box';
-          });
-        }
-
-        onPushDown() {
-          this.audio.ensureContext();
-          const btn = document.getElementById('btn-push');
-          btn.classList.add('pressed');
-          this.pushLongTriggered = false;
-
-          clearTimeout(this.pushHoldTimer);
-          this.pushHoldTimer = setTimeout(() => {
-            this.pushLongTriggered = true;
-            btn.classList.add('charging');
-            this.audio.playPushCharge(6);
-            this.handlePushLongPress();
-          }, 460);
-        }
-
-        onPushUp() {
-          const btn = document.getElementById('btn-push');
-          btn.classList.remove('pressed', 'charging');
-          clearTimeout(this.pushHoldTimer);
-          if (!this.pushLongTriggered) {
-            this.handlePushButton();
-          }
-        }
-
-        handlePushLongPress() {
-          if (this.stock1G > 0) {
-            this.showToast(`🌺 カナちゃんランプ点灯中！1G連ストック ×${this.stock1G}`);
-          } else if (this.state === 'BONUS' || this.state === 'BONUS_READY') {
-            const msg = this.nextMode === 'DOKIDOKI'
-              ? '🌈 【長押し示唆】超ドキドキ級オーラ検知！！'
-              : (this.nextMode === 'HEAVEN' ? '🔥 【長押し示唆】天国ループ期待度・特大！' : '✨ 【長押し示唆】次回モードに注目！');
-            this.showToast(msg);
-          } else {
-            const hint = this.mode === 'DOKIDOKI' ? '🌈 【長押し示唆】32G以内・ドキドキ滞在！？'
-              : (this.mode === 'HEAVEN' ? '🔥 【長押し示唆】32G以内・天国チャンス！'
-              : (this.mode === 'NORMAL_B' ? '💛 【長押し示唆】通常B滞在気配（転落なし）' : `📊 累計 ${this.totalGames}G / 差枚 ${this.netCoins >= 0 ? '+' : ''}${this.netCoins}枚`));
-            this.showToast(hint);
-          }
-        }
-
-        handlePushButton() {
-          this.audio.ensureContext();
-          this.pushTapCount++;
-          clearTimeout(this.pushTapResetTimer);
-          this.pushTapResetTimer = setTimeout(() => { this.pushTapCount = 0; }, 900);
-
-          if (this.pushTapCount >= 3) {
-            this.audio.playPushCharge(this.pushTapCount);
-            if (this.pushTapCount === 5 && this.state === 'BONUS') {
-              this.showToast('⚡ PUSH連打MAX！！レア役・1G連を祈れ！');
-              return;
-            }
-          } else {
-            this.audio.playPush();
-          }
-
-          if (this.state === 'BONUS_READY') {
-            const hint = this.nextMode === 'DOKIDOKI' ? '🌈 ドキドキモード濃厚！？'
-              : (this.nextMode === 'HEAVEN' ? '🔥 天国モード期待度大！'
-              : (this.nextMode === 'NORMAL_B' ? '✨ 通常B以上チャンス！' : '🌺 ボーナスを揃えよう！'));
-            this.showToast(hint);
-          } else if (this.state === 'BONUS') {
-            this.showToast(`獲得枚数: ${this.currentBonusCoins}枚 / 残り${this.bonusGamesLeft}G`);
-          } else {
-            const modeHint = this.mode === 'DOKIDOKI' ? '超激アツ！ドキドキ滞在！？'
-              : (this.mode === 'HEAVEN' ? 'チャンス！32G以内の大チャンス！'
-              : (this.mode === 'NORMAL_B' ? 'モード示唆：ハイビスカス点滅に注目！' : `現在 ${this.gameCount}G (天井500G)`));
-            this.showToast(modeHint);
-          }
-        }
-
-        /* -----------------------------------------------------------------------
-           AUTO PLAY
-           ----------------------------------------------------------------------- */
-        toggleAutoPlay() {
-          this.autoPlay = !this.autoPlay;
-          const btn = document.getElementById('btn-autoplay');
-          btn.textContent = `⚡ 高速オート: ${this.autoPlay ? 'ON' : 'OFF'}`;
-          btn.classList.toggle('active', this.autoPlay);
-
-          if (this.autoPlay) {
-            this.runAutoLoop();
-          } else if (this.autoTimer) {
-            clearTimeout(this.autoTimer);
-            this.autoTimer = null;
-          }
-        }
-
-        runAutoLoop() {
-          if (!this.autoPlay) return;
-          if (!this.isSpinning) {
-            if (Date.now() >= this.nextReadyTime) {
-              if (this.betCount < 3) this.handleMaxBet();
-              this.handleLeverOn();
-            }
-          }
-          this.autoTimer = setTimeout(() => this.runAutoLoop(), 140);
-        }
-
-        scheduleAutoStops() {
-          const order = this.currentOutcome.naviOrder || [0, 1, 2];
-          order.forEach((rIdx, i) => {
-            setTimeout(() => {
-              if (this.autoPlay && this.isSpinning) {
-                this.handleStopReel(rIdx);
-              }
-            }, i * Math.max(95, Math.min(140, this.delays.betweenStops)));
-          });
-        }
-
-        /* -----------------------------------------------------------------------
-           60FPS REEL PHYSICS & CANVAS RENDERING (STRICT FORWARD TOP-TO-BOTTOM)
-           ----------------------------------------------------------------------- */
-        startRenderLoop() {
-          let lastTime = performance.now();
-          const loop = (now) => {
-            const dt = Math.min(0.05, (now - lastTime) / 1000);
-            lastTime = now;
-            this.updateReelsPhysics(dt);
-            this.renderReelsCanvas();
-            requestAnimationFrame(loop);
+          this.state = 'BONUS';
+          this.nextMode = plan.nextMode;
+          this.activeBonus = {
+            type: plan.type,
+            remainG: totalG,
+            totalG,
+            earned: 0,
+            hitG: this.currentG
           };
-          requestAnimationFrame(loop);
+
+          const bgmKind = (plan.type === 'REG')
+            ? 'REG'
+            : ((this.mode === 'DOKIDOKI' || this.renchanCount >= 3) ? 'DOKIDOKI' : 'BIG');
+          this.audio.startBonusBgm(bgmKind);
+          this.showToast(`🎉 ${plan.type} BONUS スタート!! (${totalG}G)`, 2400);
+          this.updateTopSignboard();
         }
 
+        finishActiveBonus() {
+          const b = this.activeBonus;
+          this.history.unshift({
+            type: b.type,
+            hitG: b.hitG,
+            earned: b.earned,
+            renchan: this.renchanCount
+          });
+          if (this.history.length > 30) this.history.pop();
+          this.renderHistory();
+
+          this.activeBonus = null;
+          this.audio.stopBonusBgm();
+
+          // Check 1G-Ren stock!
+          if (this.oneGRenStock > 0) {
+            this.oneGRenStock--;
+            this.refreshChanceLampState();
+            const safeNext = (this.nextMode === 'DOKIDOKI') ? 'DOKIDOKI' : 'HEAVEN';
+            this.mode = safeNext;
+            this.currentG = 1;
+            const stockPlan = {
+              type: 'BIG',
+              nextMode: this.rollNextMode(this.mode),
+              blinkPattern: safeNext === 'DOKIDOKI' ? 'rainbow' : 'fast',
+              timing: 'LEVER'
+            };
+            this.activateHibiscusAnnouncement(stockPlan);
+            this.showToast('🔥 1G連ストック放出！ 即BIG確定!!', 2600);
+          } else {
+            const target = this.nextMode || 'NORMAL_A';
+            this.enterModeAfterBonus(target);
+            this.showToast(`ボーナス終了！ 獲得 ${b.earned}枚 (32Gゾーンへ)`, 2400);
+          }
+        }
+
+        /* =====================================================================
+           G. FORWARD-SPIN REEL PHYSICS & 5-LINE CANVAS RENDERER
+           ===================================================================== */
         updateReelsPhysics(dt) {
-          this.reels.forEach(reel => {
-            if (reel.spinning && !reel.stopping) {
-              // Strictly DECREASE reel.pos every frame so delta = i - reel.pos INCREASES (+Y downward flow)
-              reel.pos = (reel.pos - reel.speed * dt + 21 * 4) % 21;
-            } else if (reel.stopping) {
-              // Continue DECREASING reel.pos smoothly into targetIdx (never reverses!)
-              const step = reel.speed * dt;
-              if (reel.stopRemain <= step) {
-                reel.pos = reel.targetIdx;
-                reel.stopping = false;
-                reel.spinning = false;
-                reel.stopRemain = 0;
-                // Trigger real-machine stepping motor downward dip & crisp lock-in brake
-                reel.braking = true;
-                reel.brakeElapsed = 0;
-                reel.bounceOffset = 0;
-                if (reel.onLanded) {
-                  const cb = reel.onLanded;
-                  reel.onLanded = null;
-                  cb();
+          for (let i = 0; i < 3; i++) {
+            const r = this.reels[i];
+            if (r.spinning) {
+              const step = r.speed * dt;
+              if (r.stopping) {
+                if (step >= r.stopRemain) {
+                  r.pos = r.targetIdx;
+                  r.spinning = false;
+                  r.stopping = false;
+                  r.stopRemain = 0;
+                  r.braking = true;
+                  r.brakeElapsed = 0;
+                  r.bounceOffset = 4.5; // Subtle downward brake inertia
+                  const cb = r.onLanded;
+                  r.onLanded = null;
+                  if (cb) cb();
+                } else {
+                  r.pos = ((r.pos - step) % 21 + 21) % 21;
+                  r.stopRemain -= step;
                 }
               } else {
-                reel.pos = (reel.pos - step + 21 * 4) % 21;
-                reel.stopRemain -= step;
+                // Continuous forward top-to-bottom rotation (pos decreases)
+                r.pos = ((r.pos - step) % 21 + 21) % 21;
               }
-            } else if (reel.braking) {
-              reel.brakeElapsed += dt;
-              const dur = 0.15;
-              if (reel.brakeElapsed >= dur) {
-                reel.braking = false;
-                reel.bounceOffset = 0;
+            } else if (r.braking) {
+              r.brakeElapsed += dt;
+              const dur = 0.085;
+              if (r.brakeElapsed >= dur) {
+                r.braking = false;
+                r.bounceOffset = 0;
               } else {
-                const t = reel.brakeElapsed / dur;
-                // Dips slightly downward (+Y) then snaps back cleanly to 0
-                reel.bounceOffset = Math.sin(t * Math.PI * 1.75) * Math.exp(-3.0 * t) * 12;
+                const t = r.brakeElapsed / dur;
+                r.bounceOffset = Math.sin(t * Math.PI) * 4.5;
               }
-            } else {
-              reel.bounceOffset = 0;
             }
-          });
+          }
         }
 
-        renderReelsCanvas() {
-          const ctx = this.reelCtx;
-          const W = this.reelCanvas.width;
-          const H = this.reelCanvas.height;
-
+        renderReelsCanvas(now) {
+          const ctx = this.ctx;
+          const W = this.canvas.width;
+          const H = this.canvas.height;
           ctx.clearRect(0, 0, W, H);
 
-          // Curved reel drum lighting gradient
-          const drumGrad = ctx.createLinearGradient(0, 0, 0, H);
-          drumGrad.addColorStop(0, '#d1d5db');
-          drumGrad.addColorStop(0.18, '#ffffff');
-          drumGrad.addColorStop(0.5, '#f9fafb');
-          drumGrad.addColorStop(0.82, '#ffffff');
-          drumGrad.addColorStop(1, '#9ca3af');
-          ctx.fillStyle = drumGrad;
-          ctx.fillRect(0, 0, W, H);
-
-          const colW = W / 3;
+          const reelW = W / 3;
           const cellH = H / 3;
           const centerY = H / 2;
 
           for (let r = 0; r < 3; r++) {
             const reel = this.reels[r];
-            const x0 = r * colW;
+            const rx = r * reelW;
+
+            // Backlit white-cream drum surface
+            const drumGrad = ctx.createLinearGradient(rx, 0, rx, H);
+            drumGrad.addColorStop(0, '#c8ccd4');
+            drumGrad.addColorStop(0.18, '#f8fafc');
+            drumGrad.addColorStop(0.5, '#ffffff');
+            drumGrad.addColorStop(0.82, '#f1f5f9');
+            drumGrad.addColorStop(1, '#bcc2cc');
+            ctx.fillStyle = drumGrad;
+            ctx.fillRect(rx + 1, 0, reelW - 2, H);
 
             ctx.save();
             ctx.beginPath();
-            ctx.rect(x0, 0, colW, H);
+            ctx.rect(rx + 1, 0, reelW - 2, H);
             ctx.clip();
 
-            ctx.globalAlpha = (reel.spinning || reel.stopping) ? 0.88 : 1.0;
-
-            // Strict forward rotation mapping:
-            // y = centerY + delta * cellH, where delta = wrap(i - reel.pos) in [-10.5, 10.5)
+            // Draw visible symbols with forward top-to-bottom mapping
             for (let i = 0; i < 21; i++) {
-              const delta = (((i - reel.pos) + 10.5) % 21 + 21) % 21 - 10.5;
-              if (Math.abs(delta) <= 2.3) {
-                const symCenterY = centerY + delta * cellH + reel.bounceOffset;
-                const y0 = symCenterY - cellH / 2;
-                this.renderer.drawSymbol(ctx, reel.strip[i], x0 + 4, y0 + 2, colW - 8, cellH - 4);
-              }
+              let delta = ((i - reel.pos + 31.5) % 21) - 10.5;
+              if (Math.abs(delta) > 2.3) continue;
+              const cy = centerY + delta * cellH + reel.bounceOffset;
+              const sy = cy - cellH / 2;
+              this.renderer.drawSymbol(ctx, reel.strip[i], rx + 3, sy, reelW - 6, cellH);
             }
+
+            // Subtle vertical motion blur veil when spinning fast
+            if (reel.spinning) {
+              ctx.fillStyle = 'rgba(255, 255, 255, 0.14)';
+              ctx.fillRect(rx + 1, 0, reelW - 2, H);
+            }
+
             ctx.restore();
 
-            // Vertical divider between reels
+            // Vertical metallic dividers between reels
             if (r > 0) {
-              ctx.fillStyle = '#111827';
-              ctx.fillRect(x0 - 2, 0, 4, H);
+              ctx.fillStyle = '#090b10';
+              ctx.fillRect(rx - 2, 0, 4, H);
+              ctx.fillStyle = 'rgba(255, 215, 0, 0.35)';
+              ctx.fillRect(rx - 0.5, 0, 1, H);
             }
           }
 
-          // Winning payline glow when stopped
-          if (!this.isSpinning && this.currentOutcome.winLines.length > 0) {
-            this.currentOutcome.winLines.forEach(lineRow => {
-              const ly = lineRow * cellH + cellH / 2;
-              ctx.save();
-              ctx.strokeStyle = 'rgba(255, 30, 86, 0.85)';
-              ctx.lineWidth = 6;
+          // Render glowing 5-line winning paylines (horizontal & diagonal)
+          if (this.winningLines.length > 0 && now < this.winFlashUntil) {
+            const pulse = 0.55 + 0.45 * Math.sin(now * 0.022);
+            const rowYs = [cellH * 0.5, cellH * 1.5, cellH * 2.5];
+
+            ctx.save();
+            ctx.lineCap = 'round';
+            this.winningLines.forEach(({ lineIdx, color }) => {
+              const line = PAYLINES[lineIdx];
+              const yStart = rowYs[line[0]];
+              const yMid = rowYs[line[1]];
+              const yEnd = rowYs[line[2]];
+
+              ctx.strokeStyle = color || '#ffd700';
+              ctx.shadowColor = color || '#ffd700';
+              ctx.shadowBlur = 14;
+              ctx.globalAlpha = pulse;
+              ctx.lineWidth = Math.max(4, H * 0.028);
+
               ctx.beginPath();
-              ctx.moveTo(8, ly);
-              ctx.lineTo(W - 8, ly);
+              ctx.moveTo(reelW * 0.08, yStart);
+              ctx.lineTo(reelW * 1.5, yMid);
+              ctx.lineTo(W - reelW * 0.08, yEnd);
               ctx.stroke();
 
-              ctx.strokeStyle = '#fef08a';
-              ctx.lineWidth = 2;
+              // Crisp white inner core
+              ctx.strokeStyle = '#ffffff';
+              ctx.lineWidth = Math.max(1.5, H * 0.01);
               ctx.stroke();
-              ctx.restore();
             });
+            ctx.restore();
           }
         }
 
-        /* -----------------------------------------------------------------------
-           DOM BINDING, PASTE LISTENER, CALIBRATION & UI UPDATES
-           ----------------------------------------------------------------------- */
+        /* =====================================================================
+           H. AUTOPLAY, PUSH INTERACTION & CALIBRATION
+           ===================================================================== */
+        scheduleAutoStop() {
+          if (!this.autoPlay || this.phase !== 'SPINNING') return;
+          const order = this.currentNavi ? [...this.currentNavi] : [0, 1, 2];
+          let step = 0;
+          const next = () => {
+            if (!this.autoPlay || this.phase !== 'SPINNING') return;
+            while (step < order.length && (!this.reels[order[step]].spinning || this.reels[order[step]].stopping)) {
+              step++;
+            }
+            if (step < order.length) {
+              this.handleStop(order[step]);
+              step++;
+              setTimeout(next, 110);
+            }
+          };
+          setTimeout(next, 60);
+        }
+
+        toggleAutoPlay() {
+          this.autoPlay = !this.autoPlay;
+          clearTimeout(this.autoTimer);
+          const btn = document.getElementById('btn-autoplay');
+          btn.textContent = this.autoPlay ? '⚡ 高速オート: ON' : '⚡ 高速オート: OFF';
+          btn.classList.toggle('active', this.autoPlay);
+
+          if (this.autoPlay) {
+            if (this.phase === 'IDLE' || this.phase === 'BETTED') {
+              this.handleLever();
+            } else if (this.phase === 'SPINNING' && this.stopsAllowed) {
+              this.scheduleAutoStop();
+            }
+          }
+        }
+
+        handlePushShort() {
+          this.audio.ensureContext();
+          this.pushRapidCount++;
+          clearTimeout(this.pushRapidReset);
+          this.pushRapidReset = setTimeout(() => { this.pushRapidCount = 0; }, 1000);
+
+          if (this.pushRapidCount >= 5) {
+            this.audio.playPushCharge(this.pushRapidCount);
+            const hint = this.mode === 'DOKIDOKI' ? '🌺 ドキドキの予感…!!'
+                       : this.mode === 'HEAVEN' ? '🌺 天国ムード漂う…！'
+                       : this.mode === 'NORMAL_B' ? '✨ なんだか良い気配…'
+                       : '🌴 ゆったり南国タイム';
+            this.showToast(`PUSH連打！ ${hint}`, 1800);
+          } else {
+            this.audio.playPush();
+            const gInfo = `現在 ${this.currentG}G / 連チャン ${this.renchanCount}連 / 差枚 ${this.netMedals >= 0 ? '+' : ''}${this.netMedals}`;
+            this.showToast(gInfo, 1700);
+          }
+        }
+
+        applyCoordinates() {
+          const { x: gx, y: gy, scale: gs } = this.globalCalib;
+          document.querySelectorAll('.cab-overlay[data-key]').forEach(el => {
+            const key = el.dataset.key;
+            const c = this.coords[key];
+            if (!c) return;
+            const left = 50 + (c.left - 50) * gs + gx;
+            const top = 50 + (c.top - 50) * gs + gy;
+            const width = c.width * gs;
+            const height = c.height * gs;
+            el.style.left = `${left.toFixed(2)}%`;
+            el.style.top = `${top.toFixed(2)}%`;
+            el.style.width = `${width.toFixed(2)}%`;
+            el.style.height = `${height.toFixed(2)}%`;
+          });
+          this.updateCalibReadout();
+        }
+
+        updateCalibReadout() {
+          const key = document.getElementById('calib-target').value;
+          const c = this.coords[key];
+          if (c) {
+            document.getElementById('calib-readout').textContent =
+              `L:${c.left.toFixed(1)}% T:${c.top.toFixed(1)}% W:${c.width.toFixed(1)}% H:${c.height.toFixed(1)}%`;
+          }
+          document.getElementById('global-calib-readout').textContent =
+            `全体: X:${this.globalCalib.x.toFixed(1)}% Y:${this.globalCalib.y.toFixed(1)}% Scale:${(this.globalCalib.scale * 100).toFixed(1)}%`;
+        }
+
+        /* =====================================================================
+           I. UI & DEBUG PANEL SYNCHRONIZATION
+           ===================================================================== */
+        updateUI() {
+          // 7-Segment 2-digit displays
+          document.getElementById('seg-credit-val').textContent = String(Math.min(50, Math.max(0, this.credit))).padStart(2, '0');
+          document.getElementById('seg-payout-val').textContent = String(Math.min(99, Math.max(0, this.payout))).padStart(2, '0');
+
+          // Buttons ready / enabled LEDs
+          document.getElementById('btn-maxbet').classList.toggle('ready', this.phase === 'IDLE');
+          document.getElementById('btn-lever').classList.toggle('ready', this.phase === 'IDLE' || this.phase === 'BETTED');
+          document.getElementById('btn-push').classList.toggle('chance-push', this.state === 'BONUS_READY' || this.oneGRenStock > 0);
+
+          const isBonusHighlight = this.state === 'BONUS' || this.state === 'BONUS_READY';
+          for (let i = 0; i < 3; i++) {
+            const btn = document.getElementById(`btn-stop-${i}`);
+            const canStop = this.phase === 'SPINNING' && this.stopsAllowed && this.reels[i].spinning && !this.reels[i].stopping;
+            btn.classList.toggle('enabled', canStop);
+            btn.classList.toggle('bonus-mode', canStop && isBonusHighlight);
+          }
+
+          // Debug panel rows
+          document.getElementById('dbg-credit').textContent =
+            `${String(this.credit).padStart(2, '0')}枚 / ${String(this.payout).padStart(2, '0')}枚`;
+          document.getElementById('dbg-game-ren').textContent = `${this.currentG}G / ${this.renchanCount}連`;
+          document.getElementById('dbg-state').textContent = this.state;
+          document.getElementById('dbg-mode').textContent = MODE_LABELS[this.mode] || this.mode;
+          document.getElementById('dbg-next-mode').textContent = this.nextMode ? (MODE_LABELS[this.nextMode] || this.nextMode) : '-';
+          document.getElementById('dbg-target-g').textContent =
+            (this.mode === 'HEAVEN' || this.mode === 'DOKIDOKI') ? `${this.targetHitG}G (32G以内)` : `${this.ceiling}G`;
+          document.getElementById('dbg-bonus-rem').textContent =
+            this.activeBonus ? `${this.activeBonus.type} 残り${this.activeBonus.remainG}G` : '-';
+          document.getElementById('dbg-stock').textContent = `${this.oneGRenStock}個`;
+          const naviStr = this.currentNavi ? ` [${this.currentNavi.map(i => ['左','中','右'][i]).join('→')}]` : '';
+          document.getElementById('dbg-flag').textContent = `${this.currentFlag}${naviStr}`;
+          document.getElementById('dbg-total').textContent =
+            `${this.totalSpins}G / ${this.netMedals >= 0 ? '+' : ''}${this.netMedals}枚`;
+
+          this.updateTopSignboard();
+          this.refreshChanceLampState();
+        }
+
+        updateForcedFlagDisplay() {
+          const el = document.getElementById('forced-flag-status');
+          el.textContent = this.forcedFlag ? `セット中: ${this.forcedFlag}` : '待機中';
+        }
+
+        renderHistory() {
+          document.getElementById('history-summary').textContent = `BIG:${this.bigCount} / REG:${this.regCount}`;
+          const list = document.getElementById('history-list');
+          if (this.history.length === 0) {
+            list.innerHTML = '<div style="color:#6b7280; text-align:center; padding:10px 0;">まだ当選履歴がありません</div>';
+            return;
+          }
+          list.innerHTML = this.history.map(h => `
+            <div class="history-item ${h.type.toLowerCase()}">
+              <div>
+                <span class="badge-pill ${h.type === 'BIG' ? 'badge-big' : 'badge-reg'}">${h.type}</span>
+                <span style="margin-left:5px; font-weight:800;">${h.hitG}G</span>
+                ${h.renchan > 1 ? `<span style="color:#fde047; margin-left:4px;">(${h.renchan}連)</span>` : ''}
+              </div>
+              <div style="font-family:monospace; color:#4ade80; font-weight:800;">+${h.earned}枚</div>
+            </div>
+          `).join('');
+        }
+
+        updateAssetStatus() {
+          const el = document.getElementById('asset-status-list');
+          const loadedSyms = Object.keys(this.renderer.images);
+          const cabStr = this.renderer.cabinetSrc ? `適用中 (${this.renderer.cabinetFilename || 'custom'})` : '内蔵SVG';
+          const symStr = loadedSyms.length > 0 ? loadedSyms.join(', ') : '内蔵ベクター描画';
+          el.innerHTML = `筐体: <b>${cabStr}</b><br/>カスタム図柄: <b>${symStr}</b>`;
+        }
+
+        /* =====================================================================
+           J. DOM EVENTS, KEYBOARD, CLIPBOARD PASTE & DRAG-AND-DROP
+           ===================================================================== */
         bindDOM() {
-          // 1. Top Toolbar & Panel File Pickers (Unconditional Cabinet Upload)
-          [
-            document.getElementById('input-cabinet-file'),
-            document.getElementById('panel-cabinet-input')
-          ].forEach(inp => {
-            inp.addEventListener('change', (e) => {
-              if (e.target.files && e.target.files[0]) {
-                this.handleUnconditionalCabinetFile(e.target.files[0]);
-                e.target.value = '';
+          // 1. Cabinet controls
+          document.getElementById('btn-maxbet').addEventListener('click', () => this.handleMaxBet());
+          document.getElementById('btn-lever').addEventListener('click', () => this.handleLever());
+          for (let i = 0; i < 3; i++) {
+            document.getElementById(`btn-stop-${i}`).addEventListener('click', () => this.handleStop(i));
+          }
+
+          // 2. PUSH button (short tap / rapid tap / hold charge)
+          const pushBtn = document.getElementById('btn-push');
+          const startHold = () => {
+            pushBtn.classList.add('charging');
+            this.pushHoldTimer = setTimeout(() => {
+              this.audio.playPushCharge(6);
+              const modeHint = this.mode === 'DOKIDOKI' ? '🌈 激アツ！ドキドキ滞在濃厚！'
+                             : this.mode === 'HEAVEN' ? '🔥 天国滞在の気配！'
+                             : this.mode === 'NORMAL_B' ? '💛 通常B以上の可能性大！'
+                             : '🌊 穏やかな南国の波…';
+              this.showToast(`長押し示唆: ${modeHint}`, 2200);
+              this.pushHoldTimer = null;
+            }, 550);
+          };
+          const endHold = () => {
+            pushBtn.classList.remove('charging');
+            if (this.pushHoldTimer) {
+              clearTimeout(this.pushHoldTimer);
+              this.pushHoldTimer = null;
+              this.handlePushShort();
+            }
+          };
+          pushBtn.addEventListener('pointerdown', startHold);
+          pushBtn.addEventListener('pointerup', endHold);
+          pushBtn.addEventListener('pointerleave', () => {
+            pushBtn.classList.remove('charging');
+            clearTimeout(this.pushHoldTimer);
+            this.pushHoldTimer = null;
+          });
+
+          // 3. Keyboard shortcuts
+          window.addEventListener('keydown', (e) => {
+            if (e.target && ['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) return;
+            if (e.repeat) return;
+            if (e.code === 'Space' || e.code === 'Enter') {
+              e.preventDefault();
+              this.handleLever();
+            } else if (e.code === 'ArrowLeft' || e.code === 'KeyA') {
+              e.preventDefault();
+              this.handleStop(0);
+            } else if (e.code === 'ArrowDown' || e.code === 'KeyS') {
+              e.preventDefault();
+              this.handleStop(1);
+            } else if (e.code === 'ArrowRight' || e.code === 'KeyD') {
+              e.preventDefault();
+              this.handleStop(2);
+            }
+          });
+
+          // 4. Toolbar & Side panel toggle
+          const sidePanel = document.getElementById('side-panel');
+          const togglePanel = () => sidePanel.classList.toggle('collapsed');
+          document.getElementById('tb-toggle-panel').addEventListener('click', togglePanel);
+          document.getElementById('tb-toggle-panel-compact').addEventListener('click', togglePanel);
+          document.getElementById('side-close-btn').addEventListener('click', () => sidePanel.classList.add('collapsed'));
+
+          const toolbar = document.getElementById('top-toolbar');
+          document.getElementById('tb-collapse-bar').addEventListener('click', () => toolbar.classList.add('compact'));
+          document.getElementById('tb-expand-bar').addEventListener('click', () => toolbar.classList.remove('compact'));
+
+          // Collapse side panel by default on narrow mobile screens
+          if (window.innerWidth <= 940) {
+            sidePanel.classList.add('collapsed');
+          }
+
+          // 5. Audio & Autoplay
+          document.getElementById('btn-mute').addEventListener('click', (e) => {
+            const muted = this.audio.toggleMute();
+            e.target.textContent = muted ? '🔇 サウンド: OFF' : '🔊 サウンド: ON';
+          });
+          document.getElementById('btn-autoplay').addEventListener('click', () => this.toggleAutoPlay());
+          document.getElementById('vol-slider').addEventListener('input', (e) => {
+            const v = parseInt(e.target.value, 10);
+            document.getElementById('vol-val').textContent = `${v}%`;
+            this.audio.setVolume(v / 100);
+          });
+          document.getElementById('btn-add-credit').addEventListener('click', () => {
+            this.credit = 50;
+            this.audio.playBet();
+            this.updateUI();
+            this.showToast('クレジットを50枚に補充しました', 1400);
+          });
+
+          // 6. Forced Flags
+          document.querySelectorAll('.flag-btn[data-force]').forEach(btn => {
+            btn.addEventListener('click', () => {
+              const f = btn.dataset.force;
+              if (f === '1GREN') {
+                this.award1GRen('強制1G連ストック追加！');
+              } else if (f === 'HEAVEN') {
+                this.mode = 'HEAVEN';
+                this.state = 'HEAVEN_ZONE';
+                this.currentG = 0;
+                this.targetHitG = 1 + Math.floor(Math.random() * 12);
+                this.showToast(`天国モードへ強制移行！(規定 ${this.targetHitG}G)`, 2000);
+                this.updateUI();
+              } else if (f === 'JUMP499') {
+                this.state = 'NORMAL';
+                this.mode = 'NORMAL_A';
+                this.currentG = 499;
+                this.showToast('499Gへジャンプ！ 次ゲーム天井発動！', 2000);
+                this.updateUI();
+              } else {
+                this.forcedFlag = f;
+                this.updateForcedFlagDisplay();
+                this.showToast(`強制フラグ設定: ${f}`, 1600);
               }
             });
           });
+          document.getElementById('btn-clear-force').addEventListener('click', () => {
+            this.forcedFlag = null;
+            this.updateForcedFlagDisplay();
+            this.showToast('強制フラグを解除しました', 1300);
+          });
 
-          // 2. Top Toolbar & Panel Symbol Pickers
-          [
-            document.getElementById('input-symbol-files'),
-            document.getElementById('panel-symbol-input')
-          ].forEach(inp => {
-            inp.addEventListener('change', (e) => {
-              if (e.target.files && e.target.files.length > 0) {
-                this.handleSymbolFilesSelection(e.target.files);
-                e.target.value = '';
+          // 7. Reel Speed & Bonus Meoshi Grace Sliders
+          document.getElementById('reel-speed-slider').addEventListener('input', (e) => {
+            this.reelSpeed = parseFloat(e.target.value);
+            const rpm = Math.round((this.reelSpeed / 21) * 60);
+            document.getElementById('reel-speed-val').textContent = `${this.reelSpeed.toFixed(1)} コマ/秒 (約${rpm}RPM)`;
+            this.reels.forEach(r => {
+              if (r.spinning) r.speed = this.reelSpeed;
+            });
+          });
+          document.getElementById('meoshi-grace-slider').addEventListener('input', (e) => {
+            this.meoshiGrace = parseInt(e.target.value, 10);
+            document.getElementById('meoshi-grace-val').textContent = `${this.meoshiGrace} コマ`;
+          });
+
+          // 8. CHANCE Brightness & Test Toggle
+          document.getElementById('chance-bright-slider').addEventListener('input', (e) => {
+            this.chanceBrightness = parseFloat(e.target.value);
+            this.applyChanceBrightness();
+          });
+          document.getElementById('btn-chance-test').addEventListener('click', (e) => {
+            this.chanceTestMode = !this.chanceTestMode;
+            e.target.classList.toggle('active', this.chanceTestMode);
+            e.target.textContent = this.chanceTestMode ? 'テスト中' : '点灯テスト';
+            this.refreshChanceLampState();
+          });
+
+          // 9. Delay sliders
+          document.getElementById('delay-lever').addEventListener('input', (e) => {
+            this.delays.leverToStop = parseInt(e.target.value, 10);
+            document.getElementById('delay-lever-val').textContent = `${this.delays.leverToStop}ms`;
+          });
+          document.getElementById('delay-stop').addEventListener('input', (e) => {
+            this.delays.betweenStops = parseInt(e.target.value, 10);
+            document.getElementById('delay-stop-val').textContent = `${this.delays.betweenStops}ms`;
+          });
+          document.getElementById('delay-end').addEventListener('input', (e) => {
+            this.delays.afterThirdStop = parseInt(e.target.value, 10);
+            document.getElementById('delay-end-val').textContent = `${this.delays.afterThirdStop}ms`;
+          });
+
+          // 10. Calibration Guide & Nudges
+          document.getElementById('btn-guide-toggle').addEventListener('click', (e) => {
+            const stage = document.getElementById('cabinet-stage');
+            const active = stage.classList.toggle('guide-active');
+            e.target.textContent = active ? 'ガイド: ON' : 'ガイド: OFF';
+            e.target.classList.toggle('active', active);
+          });
+          document.getElementById('calib-target').addEventListener('change', () => this.updateCalibReadout());
+          document.querySelectorAll('.global-nudge').forEach(btn => {
+            btn.addEventListener('click', () => {
+              const axis = btn.dataset.gaxis;
+              const delta = parseFloat(btn.dataset.delta);
+              this.globalCalib[axis] = Math.round((this.globalCalib[axis] + delta) * 1000) / 1000;
+              this.applyCoordinates();
+            });
+          });
+          document.querySelectorAll('.calib-nudge').forEach(btn => {
+            btn.addEventListener('click', () => {
+              const key = document.getElementById('calib-target').value;
+              const axis = btn.dataset.axis;
+              const delta = parseFloat(btn.dataset.delta);
+              if (this.coords[key]) {
+                this.coords[key][axis] = Math.round((this.coords[key][axis] + delta) * 10) / 10;
+                this.applyCoordinates();
               }
             });
           });
-
-          // 3. Global Clipboard Paste (Ctrl+V / Cmd+V) Listener
-          window.addEventListener('paste', (e) => {
-            const dt = e.clipboardData || window.clipboardData;
-            if (!dt) return;
-
-            if (dt.items && dt.items.length > 0) {
-              for (let i = 0; i < dt.items.length; i++) {
-                const item = dt.items[i];
-                if (item.type && item.type.startsWith('image/')) {
-                  const file = item.getAsFile();
-                  if (file) {
-                    e.preventDefault();
-                    this.handleUnconditionalCabinetFile(file);
-                    return;
-                  }
-                }
-              }
-            }
-            if (dt.files && dt.files.length > 0) {
-              for (let i = 0; i < dt.files.length; i++) {
-                if (dt.files[i].type && dt.files[i].type.startsWith('image/')) {
-                  e.preventDefault();
-                  this.handleUnconditionalCabinetFile(dt.files[i]);
-                  return;
-                }
-              }
-            }
+          document.getElementById('btn-reset-coords').addEventListener('click', () => {
+            this.coords = JSON.parse(JSON.stringify(DEFAULT_COORDS));
+            this.globalCalib = { x: 0, y: 0, scale: 1.0 };
+            this.applyCoordinates();
+            this.showGlobalToast('座標設定を初期値へリセットしました');
           });
 
-          // 4. Paste Button
+          // 11. Asset File Inputs (Toolbar + Panel)
+          const onCabinetInput = (e) => {
+            if (e.target.files && e.target.files[0]) {
+              this.handleUnconditionalCabinetFile(e.target.files[0]);
+              e.target.value = '';
+            }
+          };
+          const onSymbolInput = (e) => {
+            if (e.target.files && e.target.files.length > 0) {
+              this.handleSymbolFilesSelection(e.target.files);
+              e.target.value = '';
+            }
+          };
+          document.getElementById('input-cabinet-file').addEventListener('change', onCabinetInput);
+          document.getElementById('panel-cabinet-input').addEventListener('change', onCabinetInput);
+          document.getElementById('input-symbol-files').addEventListener('change', onSymbolInput);
+          document.getElementById('panel-symbol-input').addEventListener('change', onSymbolInput);
+
+          document.getElementById('btn-reset-assets').addEventListener('click', () => {
+            this.renderer.resetAll();
+            document.getElementById('cabinet-img').style.display = 'none';
+            document.getElementById('cabinet-fallback-svg').style.display = 'block';
+            const lbl = document.getElementById('tb-cabinet-label');
+            lbl.classList.remove('applied');
+            lbl.classList.add('primary');
+            document.getElementById('tb-cabinet-text').textContent = '📷 筐体画像を選ぶ（どんなファイル名でもOK）';
+            document.getElementById('tb-compact-status').textContent = '🌺 ISOスロ！ 準備完了';
+            this.updateAssetStatus();
+            this.showGlobalToast('内蔵グラフィックに戻しました');
+          });
+
+          // 12. Clipboard Paste Button & Global Ctrl+V Paste
           document.getElementById('tb-paste-btn').addEventListener('click', async () => {
-            try {
-              if (navigator.clipboard && navigator.clipboard.read) {
+            if (navigator.clipboard && navigator.clipboard.read) {
+              try {
                 const items = await navigator.clipboard.read();
                 for (const item of items) {
                   const imgType = item.types.find(t => t.startsWith('image/'));
@@ -3337,360 +4065,64 @@
                     return;
                   }
                 }
-                this.showGlobalToast('クリップボードに画像がありません。画像をコピー後、Ctrl+V（MacはCmd+V）で貼り付けてください', 3000);
-                return;
+                this.showGlobalToast('クリップボードに画像が見つかりません（Ctrl+Vも試してください）');
+              } catch (_) {
+                this.showGlobalToast('画面をクリックして Ctrl+V（Macは Cmd+V）で貼り付けてください');
               }
-            } catch (_) {}
-            this.showGlobalToast('画面内をクリックして Ctrl+V（Macは Cmd+V）を押すと画像を貼り付けできます！', 3200);
-          });
-
-          // 5. Toolbar Collapse / Expand
-          const toolbar = document.getElementById('top-toolbar');
-          document.getElementById('tb-collapse-bar').addEventListener('click', () => toolbar.classList.add('compact'));
-          document.getElementById('tb-expand-bar').addEventListener('click', () => toolbar.classList.remove('compact'));
-
-          // 6. Side Panel Toggle
-          const sidePanel = document.getElementById('side-panel');
-          if (window.innerWidth <= 940) {
-            sidePanel.classList.add('collapsed');
-          }
-          const togglePanel = () => sidePanel.classList.toggle('collapsed');
-          document.getElementById('tb-toggle-panel').addEventListener('click', togglePanel);
-          document.getElementById('tb-toggle-panel-compact').addEventListener('click', togglePanel);
-          document.getElementById('side-close-btn').addEventListener('click', () => sidePanel.classList.add('collapsed'));
-
-          // 7. Cabinet Controls
-          document.getElementById('btn-maxbet').addEventListener('click', () => this.handleMaxBet());
-          document.getElementById('btn-lever').addEventListener('click', () => this.handleLeverOn());
-
-          const pushBtn = document.getElementById('btn-push');
-          pushBtn.addEventListener('pointerdown', (e) => {
-            e.preventDefault();
-            this.onPushDown();
-          });
-          pushBtn.addEventListener('pointerup', () => this.onPushUp());
-          pushBtn.addEventListener('pointerleave', () => {
-            clearTimeout(this.pushHoldTimer);
-            pushBtn.classList.remove('pressed', 'charging');
-          });
-
-          [0, 1, 2].forEach(i => {
-            document.getElementById(`btn-stop-${i}`).addEventListener('click', () => this.handleStopReel(i));
-          });
-
-          // 8. Keyboard Shortcuts
-          window.addEventListener('keydown', (e) => {
-            if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
-            if (e.ctrlKey || e.metaKey || e.altKey) return;
-            if (e.code === 'Space' || e.code === 'Enter') {
-              e.preventDefault();
-              if (!this.isSpinning) {
-                if (this.betCount < 3) this.handleMaxBet();
-                this.handleLeverOn();
-              } else {
-                const nextReel = [0, 1, 2].find(i => this.stopEnabled[i]);
-                if (nextReel !== undefined) this.handleStopReel(nextReel);
-              }
-            } else if (e.code === 'ArrowLeft' || e.code === 'KeyA') {
-              e.preventDefault();
-              this.handleStopReel(0);
-            } else if (e.code === 'ArrowDown' || e.code === 'KeyS') {
-              e.preventDefault();
-              this.handleStopReel(1);
-            } else if (e.code === 'ArrowRight' || e.code === 'KeyD') {
-              e.preventDefault();
-              this.handleStopReel(2);
+            } else {
+              this.showGlobalToast('画面をクリックして Ctrl+V（Macは Cmd+V）で貼り付けてください');
             }
           });
 
-          // 9. Audio, Autoplay & Refill
-          document.getElementById('btn-mute').addEventListener('click', (e) => {
-            const muted = this.audio.toggleMute();
-            e.target.textContent = `🔊 サウンド: ${muted ? 'OFF' : 'ON'}`;
-          });
-          document.getElementById('vol-slider').addEventListener('input', (e) => {
-            const v = Number(e.target.value);
-            document.getElementById('vol-label').textContent = `${v}%`;
-            this.audio.setVolume(v / 100);
-          });
-          document.getElementById('btn-autoplay').addEventListener('click', () => this.toggleAutoPlay());
-          document.getElementById('btn-refill-50').addEventListener('click', () => {
-            this.credits = 50;
-            this.audio.playBet();
-            this.updateUI();
-            this.showToast('クレジットを50枚に補充しました');
-          });
-
-          // 10. Force Flags
-          document.querySelectorAll('.flag-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-              this.forcedFlag = btn.dataset.flag;
-              this.updateForceFlagBadge();
-              this.showToast(`強制フラグ予約: ${btn.textContent}`);
-            });
-          });
-          document.getElementById('btn-clear-flag').addEventListener('click', () => {
-            this.forcedFlag = null;
-            this.updateForceFlagBadge();
-          });
-
-          // 11. CHANCE Lamp Brightness Slider & Preview Test Toggle
-          document.getElementById('chance-bright-slider').addEventListener('input', (e) => {
-            this.applyChanceBrightness(parseFloat(e.target.value));
-          });
-          document.getElementById('btn-test-chance').addEventListener('click', (e) => {
-            this.chanceTestMode = !this.chanceTestMode;
-            e.target.classList.toggle('active', this.chanceTestMode);
-            e.target.textContent = this.chanceTestMode ? 'テスト中' : '点灯テスト';
-            this.refreshChanceLampState();
-          });
-
-          // 12. Delay Sliders
-          document.getElementById('delay-lever').addEventListener('input', (e) => {
-            this.delays.leverToStop = Number(e.target.value);
-            document.getElementById('delay-lever-val').textContent = `${this.delays.leverToStop}ms`;
-          });
-          document.getElementById('delay-stop').addEventListener('input', (e) => {
-            this.delays.betweenStops = Number(e.target.value);
-            document.getElementById('delay-stop-val').textContent = `${this.delays.betweenStops}ms`;
-          });
-          document.getElementById('delay-end').addEventListener('input', (e) => {
-            this.delays.afterThirdStop = Number(e.target.value);
-            document.getElementById('delay-end-val').textContent = `${this.delays.afterThirdStop}ms`;
-          });
-
-          // 13. Position Guide, Global Offset/Scale & Per-Part Fine-Tuning
-          document.getElementById('btn-toggle-guide').addEventListener('click', (e) => {
-            const stage = document.getElementById('cabinet-stage');
-            const active = stage.classList.toggle('guide-active');
-            e.target.textContent = `ガイド: ${active ? 'ON' : 'OFF'}`;
-            e.target.classList.toggle('active', active);
-          });
-
-          document.querySelectorAll('.global-nudge').forEach(btn => {
-            btn.addEventListener('click', () => {
-              const axis = btn.dataset.gaxis;
-              const delta = parseFloat(btn.dataset.delta);
-              if (axis === 'scale') {
-                this.globalCalib.scale = Math.max(0.8, Math.min(1.2, Math.round((this.globalCalib.scale + delta) * 1000) / 1000));
-              } else {
-                this.globalCalib[axis] = Math.round((this.globalCalib[axis] + delta) * 10) / 10;
+          window.addEventListener('paste', (e) => {
+            const items = e.clipboardData && e.clipboardData.items;
+            if (!items) return;
+            for (const item of items) {
+              if (item.type && item.type.startsWith('image/')) {
+                const file = item.getAsFile();
+                if (file) {
+                  e.preventDefault();
+                  this.handleUnconditionalCabinetFile(file);
+                  return;
+                }
               }
-              this.applyAllCoords();
-              this.updateCalibReadout();
-            });
+            }
           });
 
-          const calibTarget = document.getElementById('calib-target');
-          calibTarget.addEventListener('change', () => this.updateCalibReadout());
-
-          document.querySelectorAll('.calib-nudge').forEach(btn => {
-            btn.addEventListener('click', () => {
-              const key = calibTarget.value;
-              const axis = btn.dataset.axis;
-              const delta = parseFloat(btn.dataset.delta);
-              this.coords[key][axis] = Math.round((this.coords[key][axis] + delta) * 10) / 10;
-              this.applySingleCoord(key);
-              this.updateCalibReadout();
-            });
-          });
-
-          document.getElementById('btn-reset-coords').addEventListener('click', () => {
-            this.coords = JSON.parse(JSON.stringify(DEFAULT_COORDS));
-            this.globalCalib = { x: 0, y: 0, scale: 1.0 };
-            this.applyAllCoords();
-            this.updateCalibReadout();
-            this.showGlobalToast('座標・オフセットを初期値にリセットしました', 2000);
-          });
-          this.updateCalibReadout();
-
-          // 14. Full-Window Drag & Drop
+          // 13. Full-Window Drag & Drop
           const dropOverlay = document.getElementById('drop-overlay');
-          let dragCounter = 0;
-
+          let dragDepth = 0;
           window.addEventListener('dragenter', (e) => {
             e.preventDefault();
-            dragCounter++;
+            dragDepth++;
             dropOverlay.classList.add('active');
-          });
-          window.addEventListener('dragleave', (e) => {
-            e.preventDefault();
-            dragCounter--;
-            if (dragCounter <= 0) {
-              dragCounter = 0;
-              dropOverlay.classList.remove('active');
-            }
           });
           window.addEventListener('dragover', (e) => {
             e.preventDefault();
-            if (e.dataTransfer) e.dataTransfer.dropEffect = 'copy';
+          });
+          window.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            dragDepth = Math.max(0, dragDepth - 1);
+            if (dragDepth === 0) dropOverlay.classList.remove('active');
           });
           window.addEventListener('drop', (e) => {
             e.preventDefault();
-            dragCounter = 0;
+            dragDepth = 0;
             dropOverlay.classList.remove('active');
             if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
               this.handleSmartDropFiles(e.dataTransfer.files);
             }
           });
-
-          // 15. Reset Assets to Built-In Graphics
-          document.getElementById('btn-reset-assets').addEventListener('click', () => {
-            this.renderer.resetAll();
-            const imgEl = document.getElementById('cabinet-img');
-            imgEl.style.display = 'none';
-            imgEl.removeAttribute('src');
-            document.getElementById('cabinet-fallback-svg').style.display = 'block';
-
-            const labelBtn = document.getElementById('tb-cabinet-label');
-            labelBtn.classList.remove('applied');
-            labelBtn.classList.add('primary');
-            document.getElementById('tb-cabinet-text').textContent = '📷 筐体画像を選ぶ（どんなファイル名でもOK）';
-            document.getElementById('tb-compact-status').textContent = '🌺 ISOスロ！ 内蔵スキン使用中';
-
-            this.updateAssetStatusUI();
-            this.showGlobalToast('内蔵グラフィックに戻しました', 2000);
-          });
-        }
-
-        applyAllCoords() {
-          Object.keys(this.coords).forEach(k => this.applySingleCoord(k));
-        }
-
-        applySingleCoord(key) {
-          const el = document.querySelector(`[data-key="${key}"]`);
-          const c = this.coords[key];
-          if (!el || !c) return;
-
-          const s = this.globalCalib.scale;
-          const cx = c.left + c.width / 2;
-          const cy = c.top + c.height / 2;
-          const nw = c.width * s;
-          const nh = c.height * s;
-          const nl = 50 + (cx - 50) * s - nw / 2 + this.globalCalib.x;
-          const nt = 50 + (cy - 50) * s - nh / 2 + this.globalCalib.y;
-
-          el.style.left = `${nl.toFixed(2)}%`;
-          el.style.top = `${nt.toFixed(2)}%`;
-          el.style.width = `${nw.toFixed(2)}%`;
-          el.style.height = `${nh.toFixed(2)}%`;
-        }
-
-        updateCalibReadout() {
-          const g = this.globalCalib;
-          document.getElementById('global-calib-readout').textContent =
-            `全体: X:${g.x.toFixed(1)}% Y:${g.y.toFixed(1)}% Scale:${(g.scale * 100).toFixed(1)}%`;
-
-          const key = document.getElementById('calib-target').value;
-          const c = this.coords[key];
-          document.getElementById('calib-readout').textContent =
-            `個別: left:${c.left}% top:${c.top}% w:${c.width}% h:${c.height}%`;
-        }
-
-        updateAssetStatusUI() {
-          const loaded = [];
-          if (this.renderer.cabinetSrc) {
-            loaded.push(`筐体(${this.renderer.cabinetFilename || '適用済'})`);
-          }
-          Object.keys(this.renderer.images).forEach(k => loaded.push(k));
-          document.getElementById('asset-status-list').textContent =
-            loaded.length > 0 ? `適用中素材: ${loaded.join(', ')}` : '現在: 内蔵ベクタースキン使用中';
-        }
-
-        updateForceFlagBadge() {
-          document.getElementById('active-flag-badge').textContent =
-            this.forcedFlag ? `予約: ${this.forcedFlag}` : '待機中';
-        }
-
-        showToast(msg) {
-          const el = document.getElementById('cabinet-toast');
-          el.textContent = msg;
-          el.classList.add('show');
-          clearTimeout(this.toastTimer);
-          this.toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
-        }
-
-        showGlobalToast(msg, durationMs = 2500) {
-          const el = document.getElementById('global-toast');
-          el.textContent = msg;
-          el.classList.add('show');
-          clearTimeout(this.globalToastTimer);
-          this.globalToastTimer = setTimeout(() => el.classList.remove('show'), durationMs);
-        }
-
-        renderHistoryList() {
-          const list = document.getElementById('history-list');
-          document.getElementById('history-summary').textContent = `BIG:${this.bigTotal} / REG:${this.regTotal}`;
-          if (this.history.length === 0) return;
-
-          list.innerHTML = this.history.map(h => `
-            <div class="history-item ${h.type.toLowerCase()}">
-              <div>
-                <span class="badge-pill badge-${h.type.toLowerCase()}">${h.type}</span>
-                <strong style="margin-left:4px;">${h.game}G</strong>
-                <span style="color:#fde047; margin-left:4px;">(${h.chain}連)</span>
-              </div>
-              <div style="font-family:monospace; color:#a7f3d0;">+${h.coins}枚</div>
-            </div>
-          `).join('');
-        }
-
-        updateUI() {
-          // Strictly 2-digit red numbers ONLY inside #seg-credit and #seg-payout
-          const credStr = String(this.credits).padStart(2, '0');
-          const payStr = String(this.payoutDisplay).padStart(2, '0');
-          document.getElementById('seg-credit-val').textContent = credStr;
-          document.getElementById('seg-payout-val').textContent = payStr;
-          document.getElementById('dbg-credit-pay').textContent = `${credStr}枚 / ${payStr}枚`;
-
-          document.getElementById('lcd-game-count').textContent =
-            this.state === 'BONUS' ? `R${String(this.bonusGamesLeft).padStart(2, '0')}` : String(this.gameCount).padStart(3, '0');
-          document.getElementById('lcd-chain-count').textContent = String(this.chainCount).padStart(2, '0');
-
-          const statusEl = document.getElementById('lcd-status-text');
-          statusEl.className = 'lcd-status-badge';
-          if (this.state === 'BONUS') {
-            statusEl.textContent = `${this.currentBonusType} BONUS`;
-            statusEl.classList.add(this.currentBonusType === 'BIG' ? 'bonus-big' : 'bonus-reg');
-          } else if (this.state === 'BONUS_READY') {
-            statusEl.textContent = 'BONUS 確定!';
-            statusEl.classList.add('bonus-big');
-          } else if (this.state === 'HEAVEN_ZONE') {
-            statusEl.textContent = 'CHANCE 32G';
-            statusEl.classList.add('heaven');
-          } else {
-            statusEl.textContent = 'NORMAL';
-          }
-
-          document.getElementById('btn-maxbet').classList.toggle('ready', !this.isSpinning && this.betCount < 3);
-          document.getElementById('btn-lever').classList.toggle('ready', !this.isSpinning);
-          document.getElementById('btn-push').classList.toggle('chance-push',
-            this.state === 'BONUS_READY' || this.currentOutcome.isomotoStops > 0);
-
-          const isBonusColor = this.state === 'BONUS' || this.state === 'BONUS_READY';
-          [0, 1, 2].forEach(i => {
-            const btn = document.getElementById(`btn-stop-${i}`);
-            btn.classList.toggle('enabled', this.stopEnabled[i]);
-            btn.classList.toggle('bonus-mode', isBonusColor);
-          });
-
-          document.getElementById('dbg-state').textContent = this.state;
-          document.getElementById('dbg-mode').textContent = MODE_LABELS[this.mode] || this.mode;
-          document.getElementById('dbg-next-mode').textContent = this.nextMode ? MODE_LABELS[this.nextMode] : '-';
-          document.getElementById('dbg-target-g').textContent = `${this.targetHitG}G`;
-          document.getElementById('dbg-bonus-rem').textContent = this.state === 'BONUS' ? `${this.bonusGamesLeft}G` : '-';
-          document.getElementById('dbg-stock').textContent = `${this.stock1G}個`;
-          document.getElementById('dbg-role').textContent =
-            this.currentOutcome.naviOrder
-              ? `${this.currentOutcome.role} [${this.currentOutcome.naviOrder.map(n => n + 1).join('-')}]`
-              : this.currentOutcome.role;
-          document.getElementById('dbg-stats').textContent =
-            `${this.totalGames}G / ${this.netCoins >= 0 ? '+' : ''}${this.netCoins}枚`;
         }
       }
 
+      // Initialize Game safely on DOM ready
       window.addEventListener('DOMContentLoaded', () => {
-        window.isoSloApp = new IsoSloGame();
+        try {
+          window.isoSloApp = new IsoSloGame();
+        } catch (err) {
+          console.error('ISOスロ！初期化エラー:', err);
+        }
       });
     })();
   </script>
